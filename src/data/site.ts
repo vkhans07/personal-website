@@ -11,8 +11,6 @@ export const site = {
     title: 'The Collection of Your Name',
     subtitle: 'Berkeley · MMXXVI · say hello',
   },
-  aboutStatement:
-    "I gravitate to problems where the answer isn't a library call — model internals, physical simulation, and squeezing latency out of systems. This room is where I keep the work while I figure out the next hard thing.",
 }
 
 export interface SocialLink {

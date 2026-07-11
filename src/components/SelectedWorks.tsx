@@ -1,10 +1,13 @@
 import { works } from '../data/site'
+import { useScrollLag } from '../hooks/useScrollLag'
 import '../styles/works.css'
 
 // Gallery II — the pop-art room. A torn cream sheet slapped over the two
 // dark rooms; each piece gets a bespoke hanging treatment.
 export default function SelectedWorks() {
   const [pinned, leaning, hung] = works
+  // the cable-hung piece rides the scroll loosely, on top of its sway
+  const hungLag = useScrollLag<HTMLDivElement>(0.16)
 
   return (
     <section id="works" className="works">
@@ -58,7 +61,7 @@ export default function SelectedWorks() {
           </div>
 
           {/* 3 · hung from cables */}
-          <div className="work work--hung">
+          <div ref={hungLag} className="work work--hung">
             <div className="work-cable work-cable--left" />
             <div className="work-cable work-cable--right" />
             <div className="work-hung-frame">

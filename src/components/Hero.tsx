@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useMonetEngine, FRAME_URL } from '../hooks/useMonetEngine'
+import { useScrollLag } from '../hooks/useScrollLag'
 import IdentityPanel from './IdentityPanel'
 import LightPanel from './LightPanel'
 import '../styles/hero.css'
@@ -7,6 +8,7 @@ import '../styles/hero.css'
 export default function Hero() {
   const [lightsUp, setLightsUp] = useState(false)
   const engine = useMonetEngine(lightsUp)
+  const workLag = useScrollLag<HTMLDivElement>(0.18)
 
   return (
     <section id="top" className="hero" onPointerMove={engine.onAim}>
@@ -16,7 +18,7 @@ export default function Hero() {
 
       <div className="hero-stage">
         {/* the work: gilt frame image with the ball-canvas in its window */}
-        <div className="hero-work">
+        <div ref={workLag} className="hero-work">
           <div className="hero-canvas-window">
             <canvas
               ref={engine.canvasRef}

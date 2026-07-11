@@ -11,7 +11,6 @@ export default function GalleryNav() {
       <div className="nav-links">
         <a href="#works" onClick={navTo('works')}>Works</a>
         <a href="#reading" onClick={navTo('reading')}>Writing</a>
-        <a href="#note" onClick={navTo('note')}>About</a>
       </div>
     </nav>
   )

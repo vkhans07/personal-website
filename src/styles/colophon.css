@@ -19,57 +19,8 @@
   pointer-events: none;
 }
 
-.colophon-inner {
-  position: relative;
-  max-width: 680px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.colophon-kicker {
-  font-size: 11px;
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-  color: #d9a878;
-  margin-bottom: 18px;
-}
-
-.colophon-rule {
-  width: 44px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  margin: 0 auto 26px;
-}
-
-.colophon-statement {
-  font-family: var(--serif);
-  font-size: clamp(21px, 2.7vw, 30px);
-  line-height: 1.5;
-  color: #f2ead8;
-  margin: 0;
-}
-
-.colophon-dropcap {
-  float: left;
-  font-size: clamp(58px, 8vw, 86px);
-  line-height: 0.78;
-  padding: 6px 12px 0 0;
-  color: #d9a878;
-  font-style: italic;
-}
-
-.colophon-signature {
-  clear: both;
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 19px;
-  color: var(--gold);
-  margin-top: 30px;
-}
-
 .colophon-plaque-row {
   position: relative;
-  margin-top: clamp(44px, 6vw, 72px);
   display: flex;
   justify-content: center;
 }
