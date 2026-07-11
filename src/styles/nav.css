@@ -1,0 +1,35 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px clamp(20px, 5vw, 60px);
+  background: rgba(6, 4, 2, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(240, 225, 190, 0.1);
+}
+
+.nav-brand {
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #b3a488;
+}
+
+.nav-links {
+  display: flex;
+  gap: clamp(16px, 3vw, 34px);
+  font-size: 14px;
+  color: #c9bda6;
+}
+
+.nav-links a {
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+.nav-links a:hover {
+  opacity: 1;
+}

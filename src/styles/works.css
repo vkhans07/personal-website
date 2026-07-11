@@ -1,0 +1,374 @@
+/* Gallery II — the pop-art room. The section overlaps the dark rooms above
+   and below; the torn cream sheet's ragged edges reveal them. */
+.works {
+  position: relative;
+  z-index: 40;
+  width: 100%;
+  padding: clamp(150px, 15vw, 214px) clamp(20px, 5vw, 64px);
+  margin-top: clamp(-150px, -13vw, -104px);
+  margin-bottom: clamp(-150px, -13vw, -104px);
+}
+
+.works-sheet {
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  top: 0;
+  bottom: 0;
+  background-color: var(--pop-cream);
+  background-image: radial-gradient(circle, rgba(230, 57, 70, 0.13) 1.5px, transparent 2px);
+  background-size: 17px 17px;
+  clip-path: polygon(
+    0% 4.5%, 4% 2%, 8% 5.5%, 12% 3%, 16% 6%, 20% 3%, 24% 5%, 28% 2.5%,
+    32% 5.5%, 36% 3%, 40% 6%, 44% 3.5%, 48% 5%, 52% 2.5%, 56% 5.5%, 60% 3%,
+    64% 6%, 68% 3%, 72% 5%, 76% 2.5%, 80% 5.5%, 84% 3%, 88% 6%, 92% 3%,
+    96% 5%, 100% 4%, 100% 96%, 96% 98.5%, 92% 95.5%, 88% 98%, 84% 95%,
+    80% 98%, 76% 96%, 72% 98.5%, 68% 95.5%, 64% 98%, 60% 95%, 56% 98%,
+    52% 96%, 48% 98.5%, 44% 95.5%, 40% 98%, 36% 95%, 32% 98%, 28% 96%,
+    24% 98.5%, 20% 95.5%, 16% 98%, 12% 95%, 8% 98%, 4% 96%, 0% 98.5%
+  );
+  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.52))
+    drop-shadow(0 -16px 22px rgba(0, 0, 0, 0.52));
+  pointer-events: none;
+}
+
+.works-sheet-dot {
+  position: absolute;
+  top: 9%;
+  right: -30px;
+  width: 246px;
+  height: 246px;
+  border-radius: 50%;
+  background: var(--pop-yellow);
+}
+
+.works-sheet-square {
+  position: absolute;
+  bottom: 11%;
+  left: -40px;
+  width: 188px;
+  height: 188px;
+  background: var(--pop-blue);
+  transform: rotate(18deg);
+  opacity: 0.9;
+}
+
+.works-inner {
+  position: relative;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.works-head {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(42px, 5vw, 74px);
+}
+
+.works-tag {
+  display: inline-block;
+  background: var(--pop-red);
+  color: #fff;
+  font-family: var(--display);
+  letter-spacing: 0.1em;
+  font-size: 13px;
+  padding: 7px 15px;
+  transform: rotate(-3deg);
+  box-shadow: 4px 4px 0 var(--pop-black);
+}
+
+.works-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(46px, 9vw, 112px);
+  line-height: 0.86;
+  color: var(--pop-black);
+  margin: 16px 0 0;
+  text-transform: uppercase;
+  text-shadow: 6px 6px 0 var(--pop-blue);
+}
+
+.works-caption {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: #c0392b;
+  letter-spacing: 0.02em;
+  padding-bottom: 10px;
+}
+
+.works-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(30px, 4vw, 60px);
+}
+
+.work-name {
+  font-family: var(--display);
+  font-size: 19px;
+  text-transform: uppercase;
+  color: var(--pop-black);
+  line-height: 1;
+}
+.work-name--yellow { color: var(--pop-yellow); }
+.work-name--white { color: #fff; font-size: 18px; }
+
+.work-credit {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #c0392b;
+  margin-top: 5px;
+}
+.work-credit--cream { color: var(--pop-cream); }
+.work-credit--yellow { color: var(--pop-yellow); }
+
+/* 1 · pinned poster */
+.work--pinned {
+  flex: 0 0 clamp(230px, 27%, 296px);
+  position: relative;
+  transform: rotate(-2.5deg);
+  margin-top: 14px;
+}
+
+.work-pin {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #ff9aa2, #c1121f);
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.35);
+  z-index: 3;
+}
+
+.work-poster {
+  background: var(--pop-yellow);
+  border: 3px solid var(--pop-black);
+  box-shadow: 12px 12px 0 rgba(20, 20, 20, 0.88);
+}
+
+.work-poster-art {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--pop-blue);
+  border-bottom: 3px solid var(--pop-black);
+  overflow: hidden;
+}
+
+.work-poster-halftone {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.85) 2px, transparent 2.6px);
+  background-size: 14px 14px;
+  opacity: 0.5;
+}
+
+.work-poster-circle {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  width: 58%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--pop-red);
+  border: 3px solid var(--pop-black);
+}
+
+.work-poster-caption {
+  padding: 11px 13px 13px;
+  background: #fff;
+}
+
+/* 2 · leaning canvas */
+.work--leaning {
+  flex: 0 0 clamp(240px, 29%, 314px);
+  position: relative;
+  margin-top: 66px;
+}
+
+.work-lean-shadow {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: -16px;
+  height: 26px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(20, 20, 20, 0.4), transparent 70%);
+  filter: blur(4px);
+}
+
+.work-lean-canvas {
+  transform: rotate(3deg);
+  transform-origin: bottom left;
+  background: var(--pop-black);
+  padding: 12px;
+  box-shadow: 0 20px 32px -12px rgba(0, 0, 0, 0.55);
+}
+
+.work-lean-art {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--pop-red);
+  overflow: hidden;
+}
+
+.work-lean-stripes {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(20, 20, 20, 0.9) 0 4px,
+    transparent 4px 20px
+  );
+}
+
+.work-lean-target {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 64%;
+  aspect-ratio: 1;
+  background: conic-gradient(
+    var(--pop-yellow) 0 25%,
+    var(--pop-blue) 0 50%,
+    var(--pop-yellow) 0 75%,
+    var(--pop-blue) 0
+  );
+  border-radius: 50%;
+  border: 3px solid #fff;
+}
+
+.work-lean-caption {
+  padding-top: 10px;
+  text-align: center;
+}
+
+/* 3 · hung from cables */
+.work--hung {
+  flex: 0 0 clamp(230px, 27%, 296px);
+  position: relative;
+  margin-top: 2px;
+}
+
+.work-cable {
+  position: absolute;
+  top: -58px;
+  width: 2px;
+  height: 64px;
+  background: var(--pop-black);
+  transform-origin: bottom;
+}
+.work-cable--left {
+  left: 24%;
+  transform: rotate(6deg);
+}
+.work-cable--right {
+  right: 24%;
+  transform: rotate(-6deg);
+}
+
+.work-hung-frame {
+  animation: sway 6s ease-in-out infinite;
+  transform-origin: top center;
+  background: var(--pop-black);
+  padding: 10px;
+  box-shadow: 10px 12px 0 rgba(31, 79, 214, 0.85);
+}
+
+.work-hung-art {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: var(--pop-yellow);
+  overflow: hidden;
+}
+
+.work-hung-stripes {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(20, 20, 20, 0.9) 0 3px,
+    transparent 3px 16px
+  );
+}
+
+.work-hung-glyph {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--display);
+  font-size: clamp(40px, 7vw, 62px);
+  color: var(--pop-red);
+  -webkit-text-stroke: 3px var(--pop-black);
+  line-height: 0.8;
+}
+
+.work-hung-caption {
+  padding-top: 9px;
+  text-align: center;
+}
+
+/* 4 · text only */
+.work--text {
+  flex: 0 0 clamp(220px, 25%, 288px);
+  align-self: center;
+}
+
+.work-manifesto {
+  font-family: var(--display);
+  text-transform: uppercase;
+  line-height: 0.84;
+}
+.work-manifesto span {
+  display: block;
+  font-size: clamp(36px, 5.4vw, 58px);
+}
+.work-manifesto-black { color: var(--pop-black); }
+.work-manifesto-red {
+  color: var(--pop-red);
+  -webkit-text-stroke: 1px var(--pop-black);
+}
+.work-manifesto-blue { color: var(--pop-blue); }
+
+.work-manifesto-note {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--pop-black);
+  margin-top: 15px;
+  max-width: 210px;
+  line-height: 1.55;
+}
+
+/* 5 · almost invisible */
+.work--ghost {
+  flex: 0 0 clamp(196px, 21%, 252px);
+  align-self: center;
+  opacity: 0.3;
+}
+
+.work-ghost-frame {
+  aspect-ratio: 4 / 5;
+  border: 2px dashed rgba(20, 20, 20, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px;
+}
+
+.work-ghost-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(20, 20, 20, 0.6);
+  line-height: 1.6;
+}

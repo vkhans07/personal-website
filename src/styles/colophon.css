@@ -1,0 +1,103 @@
+/* Colophon — didactic wall text and the brass plaque. */
+.colophon {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 116px) clamp(20px, 5vw, 60px);
+}
+
+.colophon-glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(720px, 90%);
+  height: 300px;
+  background: radial-gradient(56% 100% at 50% 0, rgba(255, 238, 206, 0.13), transparent 66%);
+  filter: blur(28px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.colophon-inner {
+  position: relative;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.colophon-kicker {
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: #d9a878;
+  margin-bottom: 18px;
+}
+
+.colophon-rule {
+  width: 44px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto 26px;
+}
+
+.colophon-statement {
+  font-family: var(--serif);
+  font-size: clamp(21px, 2.7vw, 30px);
+  line-height: 1.5;
+  color: #f2ead8;
+  margin: 0;
+}
+
+.colophon-dropcap {
+  float: left;
+  font-size: clamp(58px, 8vw, 86px);
+  line-height: 0.78;
+  padding: 6px 12px 0 0;
+  color: #d9a878;
+  font-style: italic;
+}
+
+.colophon-signature {
+  clear: both;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 19px;
+  color: var(--gold);
+  margin-top: 30px;
+}
+
+.colophon-plaque-row {
+  position: relative;
+  margin-top: clamp(44px, 6vw, 72px);
+  display: flex;
+  justify-content: center;
+}
+
+.colophon-plaque {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(160deg, #e6c778, #b78a34 48%, #7a5e1e);
+  color: #33260f;
+  border-radius: 3px;
+  padding: 15px 32px;
+  box-shadow:
+    0 22px 42px -20px rgba(0, 0, 0, 0.82),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.4);
+}
+
+.colophon-plaque-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 16px;
+}
+
+.colophon-plaque-sub {
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(51, 38, 15, 0.78);
+}

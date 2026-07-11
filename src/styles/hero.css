@@ -1,0 +1,306 @@
+.hero {
+  position: relative;
+  min-height: min(940px, 90vh);
+  padding: 0 clamp(16px, 4vw, 48px);
+  overflow: hidden;
+}
+
+/* offscreen gallery light: soft spill from above */
+.hero-glow {
+  position: absolute;
+  top: -16%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(760px, 88%);
+  height: 82%;
+  background: radial-gradient(
+    58% 66% at 50% 0%,
+    rgba(255, 238, 206, 0.22),
+    rgba(255, 236, 200, 0.05) 46%,
+    transparent 72%
+  );
+  filter: blur(28px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(115% 95% at 50% 22%, transparent 24%, rgba(0, 0, 0, 0.9) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.hero-stage {
+  position: relative;
+  z-index: 6;
+  max-width: 1180px;
+  margin: 0 auto;
+  min-height: min(920px, 94vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 0 clamp(140px, 16vw, 200px);
+}
+
+/* the work: gilt frame with the ball-canvas in its window */
+.hero-work {
+  position: relative;
+  width: min(452px, 62%);
+  aspect-ratio: 960 / 1088;
+  filter: drop-shadow(0 58px 76px rgba(0, 0, 0, 0.8));
+}
+
+.hero-canvas-window {
+  position: absolute;
+  left: 6.6%;
+  top: 5.6%;
+  width: 86.8%;
+  height: 88.8%;
+  background: #08070c;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.7),
+    inset 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.hero-canvas-window canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.hero-hud {
+  position: absolute;
+  left: 11px;
+  bottom: 9px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 244, 214, 0.45);
+  pointer-events: none;
+}
+
+.hero-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* wall label: frosted plate below the work */
+.wall-label {
+  position: relative;
+  z-index: 8;
+  margin-top: 34px;
+  width: min(420px, 86%);
+  background: linear-gradient(160deg, rgba(252, 250, 246, 0.19), rgba(244, 240, 232, 0.1));
+  backdrop-filter: blur(32px) saturate(1.35);
+  -webkit-backdrop-filter: blur(32px) saturate(1.35);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 4px;
+  box-shadow:
+    0 26px 50px -24px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  padding: 20px 26px;
+}
+
+.wall-label-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--cream);
+  margin-bottom: 5px;
+}
+.wall-label-title span {
+  color: #f0cf8a;
+}
+
+.wall-label-sub {
+  font-size: 12.5px;
+  color: #c3b89f;
+  line-height: 1.65;
+}
+
+.wall-label-rule {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 14px 0;
+}
+
+.wall-label-hint {
+  font-size: 12.5px;
+  color: var(--gold-warm);
+  font-style: italic;
+  font-family: var(--serif);
+  line-height: 1.6;
+}
+
+/* wall-mounted side panels */
+.wall-panel--identity {
+  position: absolute;
+  left: clamp(10px, 3vw, 44px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 12;
+  width: clamp(238px, 25%, 320px);
+  padding: 34px 30px 28px;
+}
+
+.wall-panel--light {
+  position: absolute;
+  right: clamp(10px, 3vw, 44px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 12;
+  width: clamp(214px, 22%, 276px);
+  padding: 26px 22px;
+}
+
+.identity-name {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(32px, 4vw, 50px);
+  line-height: 0.98;
+  letter-spacing: -0.014em;
+  margin: 0 0 20px;
+  color: var(--cream);
+}
+
+.identity-bio {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--body-dim);
+  margin: 0 0 20px;
+}
+
+.identity-status {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0 0 22px;
+  letter-spacing: 0.01em;
+}
+
+.identity-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  transition: opacity 0.15s;
+}
+.identity-link:hover {
+  opacity: 0.62;
+}
+
+.identity-link-label {
+  font-size: 15px;
+  color: #f2ebdb;
+}
+
+.identity-link-handle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.identity-link-arrow {
+  color: var(--gold-bright);
+}
+
+.light-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.light-title {
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.light-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--gold-bright);
+  padding: 3px 4px;
+  transition: opacity 0.15s;
+}
+.light-toggle:hover {
+  opacity: 0.8;
+}
+
+.light-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.light-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.light-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #f2ebdb;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: background 0.2s;
+}
+.light-action:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.light-action-hint {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--gold-warm);
+  font-size: 14px;
+}
+
+/* below ~960px the wall panels can't share the wall with the painting —
+   let them flow under the stage instead */
+@media (max-width: 960px) {
+  .hero {
+    padding-bottom: 56px;
+  }
+  .hero-stage {
+    min-height: 0;
+    padding-bottom: 48px;
+  }
+  .wall-panel--identity,
+  .wall-panel--light {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: min(420px, 100%);
+    margin: 22px auto 0;
+  }
+}

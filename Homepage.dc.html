@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&family=Anton&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:#050302;color:#ece4d4;-webkit-font-smoothing:antialiased;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+    ::selection{background:#c9a24f;color:#100b06}
+    button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+    a{color:inherit;text-decoration:none}
+    @keyframes sway{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(1.6deg)}}
+  </style>
+</helmet>
+<div style="width:100%;overflow-x:hidden;background:radial-gradient(130% 115% at 50% -4%,#3a2c1a 0%,#241a0f 34%,#120c06 68%,#080503 100%)">
+
+  <!-- GALLERY HEADER -->
+  <nav style="position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:16px clamp(20px,5vw,60px);background:rgba(6,4,2,0.72);backdrop-filter:blur(10px);border-bottom:1px solid rgba(240,225,190,0.1)">
+    <a href="#top" onClick="{{ goTop }}" style="font-size:12px;letter-spacing:0.22em;text-transform:uppercase;color:#b3a488">Your Name — The Collection</a>
+    <div style="display:flex;gap:clamp(16px,3vw,34px);font-size:14px;color:#c9bda6">
+      <a href="#works" onClick="{{ goWorks }}" style="opacity:0.8" style-hover="opacity:1">Works</a>
+      <a href="#reading" onClick="{{ goReading }}" style="opacity:0.8" style-hover="opacity:1">Writing</a>
+      <a href="#note" onClick="{{ goNote }}" style="opacity:0.8" style-hover="opacity:1">About</a>
+    </div>
+  </nav>
+
+  <!-- HERO: THE LIT EXHIBIT -->
+  <section id="top" onPointerMove="{{ onAim }}" style="position:relative;min-height:min(940px,90vh);padding:0 clamp(16px,4vw,48px);overflow:hidden">
+
+    <!-- offscreen gallery light: soft spill from above -->
+    <div ref="{{ glowRef }}" style="position:absolute;top:-16%;left:50%;transform:translateX(-50%);width:min(760px,88%);height:82%;background:radial-gradient(58% 66% at 50% 0%,rgba(255,238,206,0.22),rgba(255,236,200,0.05) 46%,transparent 72%);filter:blur(28px);mix-blend-mode:screen;pointer-events:none;z-index:2"></div>
+    <!-- vignette -->
+    <div style="position:absolute;inset:0;background:radial-gradient(115% 95% at 50% 22%,transparent 24%,rgba(0,0,0,0.9) 100%);pointer-events:none;z-index:3"></div>
+
+    <!-- STAGE -->
+    <div style="position:relative;z-index:6;max-width:1180px;margin:0 auto;min-height:min(920px,94vh);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 0 clamp(140px,16vw,200px)">
+
+      <!-- THE WORK: real gilt frame image with the ball-canvas in its window -->
+      <div style="position:relative;width:min(452px,62%);aspect-ratio:960/1088;filter:drop-shadow(0 58px 76px rgba(0,0,0,0.8))">
+        <div style="position:absolute;left:6.6%;top:5.6%;width:86.8%;height:88.8%;background:#08070c;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.7),inset 0 10px 30px rgba(0,0,0,0.6)">
+          <canvas ref="{{ canvasRef }}" onPointerMove="{{ onMove }}" onPointerLeave="{{ onLeave }}" onPointerDown="{{ onDown }}" onPointerUp="{{ onUp }}" style="display:block;width:100%;height:100%;touch-action:none;cursor:crosshair"></canvas>
+          <div style="position:absolute;left:11px;bottom:9px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.04em;color:rgba(255,244,214,0.45);pointer-events:none"><span ref="{{ countRef }}">0</span> points · <span ref="{{ fpsRef }}">60</span> fps</div>
+        </div>
+        <img crossOrigin="anonymous" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Jacques-louis_david%2C_marte_disarmato_da_venere%2C_1824%2C_picture_frame.png/960px-Jacques-louis_david%2C_marte_disarmato_da_venere%2C_1824%2C_picture_frame.png" alt="ornate gilt frame" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;user-select:none" />
+      </div>
+
+      <!-- WALL LABEL (frosted plate below the work) -->
+      <div style="position:relative;z-index:8;margin-top:34px;width:min(420px,86%);background:linear-gradient(160deg,rgba(252,250,246,0.19),rgba(244,240,232,0.1));backdrop-filter:blur(32px) saturate(1.35);-webkit-backdrop-filter:blur(32px) saturate(1.35);border:1px solid rgba(255,255,255,0.26);border-radius:4px;box-shadow:0 26px 50px -24px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.4);padding:20px 26px">
+        <div style="font-family:'Newsreader',serif;font-style:italic;font-size:18px;color:#f6efdf;margin-bottom:5px">After Monet — <span style="color:#f0cf8a">Woman with a Parasol</span></div>
+        <div style="font-size:12.5px;color:#c3b89f;line-height:1.65">reassembled in <span ref="{{ labelCountRef }}">2,600</span> points of light · after the 1875 oil</div>
+        <div style="height:1px;background:rgba(255,255,255,0.15);margin:14px 0"></div>
+        <div style="font-size:12.5px;color:#e0b98a;font-style:italic;font-family:'Newsreader',serif;line-height:1.6">Move across the room to steer the light. Drag the paint to disturb it, click to scatter.</div>
+      </div>
+    </div>
+
+    <!-- WALL-MOUNTED PANEL: IDENTITY (left, frosted, flat pegs) -->
+    <div style="position:absolute;left:clamp(10px,3vw,44px);top:50%;transform:translateY(-50%);z-index:12;width:clamp(238px,25%,320px);background:linear-gradient(160deg,rgba(252,250,246,0.2),rgba(244,240,232,0.1));backdrop-filter:blur(32px) saturate(1.35);-webkit-backdrop-filter:blur(32px) saturate(1.35);border:1px solid rgba(255,255,255,0.28);border-radius:4px;box-shadow:0 32px 62px -26px rgba(0,0,0,0.62),inset 0 1px 0 rgba(255,255,255,0.42);padding:34px 30px 28px">
+      <span style="position:absolute;top:13px;left:13px;width:8px;height:8px;border-radius:50%;background:rgba(240,232,214,0.5)"></span>
+      <span style="position:absolute;top:13px;right:13px;width:8px;height:8px;border-radius:50%;background:rgba(240,232,214,0.5)"></span>
+      <span style="position:absolute;bottom:13px;left:13px;width:8px;height:8px;border-radius:50%;background:rgba(240,232,214,0.5)"></span>
+      <span style="position:absolute;bottom:13px;right:13px;width:8px;height:8px;border-radius:50%;background:rgba(240,232,214,0.5)"></span>
+      <h1 style="font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:clamp(32px,4vw,50px);line-height:0.98;letter-spacing:-0.014em;margin:0 0 20px;color:#f6efdf">Your<br>Name</h1>
+      <div style="height:1px;background:rgba(255,255,255,0.16);margin:0 0 20px"></div>
+      <p style="font-size:14px;line-height:1.75;color:#e4dac8;margin:0 0 20px">
+        Hi! I'm studying EECS&nbsp;+&nbsp;Business at Berkeley, graduating 2026. I like the machinery under hard things — model internals, physics, and the low-latency edges of systems.
+      </p>
+      <div style="font-size:12.5px;line-height:1.6;color:#b7ab95;margin:0 0 22px;letter-spacing:0.01em">Recruiting for '26&nbsp;·&nbsp;lifting heavy&nbsp;·&nbsp;low-latency &amp; graphics</div>
+      <div style="height:1px;background:rgba(255,255,255,0.16);margin:0 0 4px"></div>
+      <sc-for list="{{ links }}" as="l" hint-placeholder-count="4">
+        <a href="#note" onClick="{{ goNote }}" style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(255,255,255,0.13)" style-hover="opacity:0.62">
+          <span style="font-size:15px;color:#f2ebdb">{{ l.label }}</span>
+          <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:#b7ab95">{{ l.handle }}<span style="color:#e6c477">↗</span></span>
+        </a>
+      </sc-for>
+    </div>
+
+    <!-- WALL-MOUNTED PANEL: THE LIGHT (right, frosted, flat pegs) -->
+    <div style="position:absolute;right:clamp(10px,3vw,44px);top:50%;transform:translateY(-50%);z-index:12;width:clamp(214px,22%,276px);background:linear-gradient(160deg,rgba(252,250,246,0.2),rgba(244,240,232,0.1));backdrop-filter:blur(32px) saturate(1.35);-webkit-backdrop-filter:blur(32px) saturate(1.35);border:1px solid rgba(255,255,255,0.28);border-radius:4px;box-shadow:0 32px 62px -26px rgba(0,0,0,0.62),inset 0 1px 0 rgba(255,255,255,0.42);padding:26px 22px">
+      <span style="position:absolute;top:13px;left:13px;width:8px;height:8px;border-radius:50%;background:rgba(240,232,214,0.5)"></span>
+      <span style="position:absolute;top:13px;right:13px;width:8px;height:8px;border-radius:50%;background:rgba(240,232,214,0.5)"></span>
+      <span style="position:absolute;bottom:13px;left:13px;width:8px;height:8px;border-radius:50%;background:rgba(240,232,214,0.5)"></span>
+      <span style="position:absolute;bottom:13px;right:13px;width:8px;height:8px;border-radius:50%;background:rgba(240,232,214,0.5)"></span>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px">
+        <span style="font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:#b7ab95">The Light</span>
+        <button onClick="{{ toggleLight }}" style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#e6c477;padding:3px 4px" style-hover="opacity:0.8">
+          <span style="width:8px;height:8px;border-radius:50%;background:{{ lampGlow }}"></span>{{ lightLabel }}
+        </button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <sc-for list="{{ actions }}" as="a" hint-placeholder-count="2">
+          <button onClick="{{ a.onClick }}" style="display:flex;align-items:center;justify-content:space-between;font-size:13px;color:#f2ebdb;text-align:left;padding:12px 14px;border-radius:7px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);transition:background 0.2s" style-hover="background:rgba(255,255,255,0.14)">
+            {{ a.label }}<span style="font-family:'Newsreader',serif;font-style:italic;color:#e0b98a;font-size:14px">{{ a.hint }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY II: SELECTED WORKS — POP ART ROOM (top layer; torn edges reveal the dark rooms above & below) -->
+  <section id="works" style="position:relative;z-index:40;width:100%;padding:clamp(150px,15vw,214px) clamp(20px,5vw,64px);margin-top:clamp(-150px,-13vw,-104px);margin-bottom:clamp(-150px,-13vw,-104px)">
+    <!-- torn cream sheet slapped over both rooms -->
+    <div style="position:absolute;left:-4%;right:-4%;top:0;bottom:0;background-color:#f4ecd4;background-image:radial-gradient(circle,rgba(230,57,70,0.13) 1.5px,transparent 2px);background-size:17px 17px;clip-path:polygon(0% 4.5%,4% 2%,8% 5.5%,12% 3%,16% 6%,20% 3%,24% 5%,28% 2.5%,32% 5.5%,36% 3%,40% 6%,44% 3.5%,48% 5%,52% 2.5%,56% 5.5%,60% 3%,64% 6%,68% 3%,72% 5%,76% 2.5%,80% 5.5%,84% 3%,88% 6%,92% 3%,96% 5%,100% 4%,100% 96%,96% 98.5%,92% 95.5%,88% 98%,84% 95%,80% 98%,76% 96%,72% 98.5%,68% 95.5%,64% 98%,60% 95%,56% 98%,52% 96%,48% 98.5%,44% 95.5%,40% 98%,36% 95%,32% 98%,28% 96%,24% 98.5%,20% 95.5%,16% 98%,12% 95%,8% 98%,4% 96%,0% 98.5%);filter:drop-shadow(0 16px 22px rgba(0,0,0,0.52)) drop-shadow(0 -16px 22px rgba(0,0,0,0.52));pointer-events:none">
+      <div style="position:absolute;top:9%;right:-30px;width:246px;height:246px;border-radius:50%;background:#ffce2b"></div>
+      <div style="position:absolute;bottom:11%;left:-40px;width:188px;height:188px;background:#1f4fd6;transform:rotate(18deg);opacity:0.9"></div>
+    </div>
+
+    <div style="position:relative;max-width:1140px;margin:0 auto">
+      <div style="display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:clamp(42px,5vw,74px)">
+        <div>
+          <span style="display:inline-block;background:#e63946;color:#fff;font-family:'Anton',sans-serif;letter-spacing:0.1em;font-size:13px;padding:7px 15px;transform:rotate(-3deg);box-shadow:4px 4px 0 #141414">GALLERY II</span>
+          <h2 style="font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(46px,9vw,112px);line-height:0.86;color:#141414;margin:16px 0 0;text-transform:uppercase;text-shadow:6px 6px 0 #1f4fd6">Selected<br>Works</h2>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#c0392b;letter-spacing:0.02em;padding-bottom:10px">// pinned · leaning · hung · whispered</div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:clamp(30px,4vw,60px)">
+
+        <!-- 1 · PINNED poster -->
+        <div style="flex:0 0 clamp(230px,27%,296px);position:relative;transform:rotate(-2.5deg);margin-top:14px">
+          <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#ff9aa2,#c1121f);box-shadow:0 4px 5px rgba(0,0,0,0.35);z-index:3"></div>
+          <div style="background:#ffce2b;border:3px solid #141414;box-shadow:12px 12px 0 rgba(20,20,20,0.88)">
+            <div style="position:relative;aspect-ratio:4/5;background:#1f4fd6;border-bottom:3px solid #141414;overflow:hidden">
+              <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.85) 2px,transparent 2.6px);background-size:14px 14px;opacity:0.5"></div>
+              <div style="position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:58%;aspect-ratio:1;border-radius:50%;background:#e63946;border:3px solid #141414"></div>
+            </div>
+            <div style="padding:11px 13px 13px;background:#fff">
+              <div style="font-family:'Anton',sans-serif;font-size:19px;text-transform:uppercase;color:#141414;line-height:1">Attention, Rendered</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#c0392b;margin-top:5px">INTERPRETABILITY — 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 · LEANING canvas -->
+        <div style="flex:0 0 clamp(240px,29%,314px);position:relative;margin-top:66px">
+          <div style="position:absolute;left:6%;right:6%;bottom:-16px;height:26px;background:radial-gradient(ellipse at 50% 50%,rgba(20,20,20,0.4),transparent 70%);filter:blur(4px)"></div>
+          <div style="transform:rotate(3deg);transform-origin:bottom left;background:#141414;padding:12px;box-shadow:0 20px 32px -12px rgba(0,0,0,0.55)">
+            <div style="position:relative;aspect-ratio:4/5;background:#e63946;overflow:hidden">
+              <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,rgba(20,20,20,0.9) 0 4px,transparent 4px 20px)"></div>
+              <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64%;aspect-ratio:1;background:conic-gradient(#ffce2b 0 25%,#1f4fd6 0 50%,#ffce2b 0 75%,#1f4fd6 0);border-radius:50%;border:3px solid #fff"></div>
+            </div>
+            <div style="padding-top:10px;text-align:center">
+              <div style="font-family:'Anton',sans-serif;font-size:19px;text-transform:uppercase;color:#ffce2b;line-height:1">N-Body, After Nature</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#f4ecd4;margin-top:5px">WEBGL PHYSICS — 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 · HUNG from cables -->
+        <div style="flex:0 0 clamp(230px,27%,296px);position:relative;margin-top:2px">
+          <div style="position:absolute;top:-58px;left:24%;width:2px;height:64px;background:#141414;transform:rotate(6deg);transform-origin:bottom"></div>
+          <div style="position:absolute;top:-58px;right:24%;width:2px;height:64px;background:#141414;transform:rotate(-6deg);transform-origin:bottom"></div>
+          <div style="animation:sway 6s ease-in-out infinite;transform-origin:top center;background:#141414;padding:10px;box-shadow:10px 12px 0 rgba(31,79,214,0.85)">
+            <div style="position:relative;aspect-ratio:1/1;background:#ffce2b;overflow:hidden">
+              <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(20,20,20,0.9) 0 3px,transparent 3px 16px)"></div>
+              <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:'Anton',sans-serif;font-size:clamp(40px,7vw,62px);color:#e63946;-webkit-text-stroke:3px #141414;line-height:0.8">C++</div>
+            </div>
+            <div style="padding-top:9px;text-align:center">
+              <div style="font-family:'Anton',sans-serif;font-size:18px;text-transform:uppercase;color:#fff;line-height:1">The Latency Room</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#ffce2b;margin-top:5px">SYSTEMS — 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 · TEXT ONLY -->
+        <div style="flex:0 0 clamp(220px,25%,288px);align-self:center">
+          <div style="font-family:'Anton',sans-serif;text-transform:uppercase;line-height:0.84">
+            <span style="display:block;font-size:clamp(36px,5.4vw,58px);color:#141414">Make</span>
+            <span style="display:block;font-size:clamp(36px,5.4vw,58px);color:#e63946;-webkit-text-stroke:1px #141414">it</span>
+            <span style="display:block;font-size:clamp(36px,5.4vw,58px);color:#1f4fd6">fast.</span>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#141414;margin-top:15px;max-width:210px;line-height:1.55">An ongoing manifesto — low-latency &amp; graphics experiments, published when they work.</div>
+        </div>
+
+        <!-- 5 · ALMOST INVISIBLE -->
+        <div style="flex:0 0 clamp(196px,21%,252px);align-self:center;opacity:0.3">
+          <div style="aspect-ratio:4/5;border:2px dashed rgba(20,20,20,0.5);display:flex;align-items:center;justify-content:center;text-align:center;padding:16px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(20,20,20,0.6);line-height:1.6">Untitled<br>(in progress)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY III: THE CATALOGUE — ABSTRACT COLOR-FIELD ROOM (drops down over the pop room) -->
+  <!-- GALLERY III: THE CATALOGUE — ABSTRACT COLOR-FIELD ROOM (sits under the pop art's torn edge) -->
+  <section id="reading" style="position:relative;z-index:30;width:100%;overflow:hidden;background:#160c10;padding:clamp(164px,16vw,232px) clamp(20px,5vw,64px) clamp(72px,9vw,150px)">
+    <div style="position:absolute;top:4%;left:8%;width:70%;height:40%;background:#7a2e2a;filter:blur(74px);opacity:0.8;pointer-events:none"></div>
+    <div style="position:absolute;top:36%;right:-6%;width:62%;height:42%;background:#5b2b48;filter:blur(84px);opacity:0.72;pointer-events:none"></div>
+    <div style="position:absolute;bottom:-10%;left:-6%;width:68%;height:42%;background:#b5542f;filter:blur(94px);opacity:0.5;pointer-events:none"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 40%,transparent 40%,rgba(10,6,8,0.72));pointer-events:none"></div>
+
+    <div style="position:relative;max-width:1000px;margin:0 auto">
+      <div style="margin-bottom:clamp(50px,7vw,92px)">
+        <div style="font-size:11px;letter-spacing:0.36em;text-transform:uppercase;color:#d8a24a;margin-bottom:14px">Gallery III</div>
+        <h2 style="font-family:'Newsreader',serif;font-weight:500;font-style:italic;font-size:clamp(40px,7vw,84px);line-height:0.95;color:#f2e7d4;margin:0">The Catalogue</h2>
+      </div>
+
+      <!-- entry 01 · left -->
+      <a href="#reading" style="position:relative;display:block;max-width:600px;margin:0 0 clamp(46px,6vw,80px) 0;text-decoration:none">
+        <div style="position:absolute;left:-6px;top:-54px;font-family:'Newsreader',serif;font-style:italic;font-size:clamp(90px,14vw,168px);color:rgba(242,231,212,0.06);line-height:1;pointer-events:none">01</div>
+        <div style="position:relative">
+          <div style="width:56px;height:3px;background:#c56a4a;transform:rotate(-2deg);margin-bottom:18px"></div>
+          <h3 style="font-family:'Newsreader',serif;font-weight:500;font-size:clamp(24px,3.4vw,38px);line-height:1.1;color:#f4ecda;margin:0 0 10px">On rewriting the same particle system, forever</h3>
+          <p style="font-size:15px;line-height:1.6;color:#bca893;margin:0;max-width:44ch">Why I keep rebuilding the same two thousand dots — and what quietly changes each time.</p>
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:14px;color:#9a8f7c;margin-top:12px">2026 &nbsp;→</div>
+        </div>
+      </a>
+
+      <!-- entry 02 · right -->
+      <a href="#reading" style="position:relative;display:block;max-width:600px;margin:0 0 clamp(46px,6vw,80px) auto;text-align:right;text-decoration:none">
+        <div style="position:absolute;right:-6px;top:-54px;font-family:'Newsreader',serif;font-style:italic;font-size:clamp(90px,14vw,168px);color:rgba(242,231,212,0.06);line-height:1;pointer-events:none">02</div>
+        <div style="position:relative">
+          <div style="width:56px;height:3px;background:#8a9a6b;transform:rotate(2deg);margin:0 0 18px auto"></div>
+          <h3 style="font-family:'Newsreader',serif;font-weight:500;font-size:clamp(24px,3.4vw,38px);line-height:1.1;color:#f4ecda;margin:0 0 10px">Making attention feel like a physical thing</h3>
+          <p style="font-size:15px;line-height:1.6;color:#bca893;margin:0 0 0 auto;max-width:44ch">Notes toward an intuition for what a transformer is actually doing under the hood.</p>
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:14px;color:#9a8f7c;margin-top:12px">2026 &nbsp;→</div>
+        </div>
+      </a>
+
+      <!-- entry 03 · centered -->
+      <a href="#reading" style="position:relative;display:block;max-width:560px;margin:0 auto;text-decoration:none">
+        <div style="position:absolute;left:50%;top:-56px;transform:translateX(-50%);font-family:'Newsreader',serif;font-style:italic;font-size:clamp(90px,14vw,168px);color:rgba(242,231,212,0.06);line-height:1;pointer-events:none">03</div>
+        <div style="position:relative;text-align:center">
+          <div style="width:56px;height:3px;background:#d8a24a;margin:0 auto 18px"></div>
+          <h3 style="font-family:'Newsreader',serif;font-weight:500;font-size:clamp(24px,3.4vw,38px);line-height:1.1;color:#f4ecda;margin:0 0 10px">The cost of a cache miss, felt</h3>
+          <p style="font-size:15px;line-height:1.6;color:#bca893;margin:0 auto;max-width:44ch">Measuring the memory hierarchy until the nanoseconds turned into something I could feel.</p>
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:14px;color:#9a8f7c;margin-top:12px">2025 &nbsp;→</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- transition: color-field fades back into the dark gallery -->
+  <div style="position:relative;height:96px;margin-top:-1px;background:linear-gradient(180deg,#160c10,transparent)"></div>
+
+  <!-- COLOPHON: didactic wall text -->
+  <section id="note" style="position:relative;max-width:1200px;margin:0 auto;padding:clamp(56px,8vw,116px) clamp(20px,5vw,60px)">
+    <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(720px,90%);height:300px;background:radial-gradient(56% 100% at 50% 0,rgba(255,238,206,0.13),transparent 66%);filter:blur(28px);mix-blend-mode:screen;pointer-events:none"></div>
+    <div style="position:relative;max-width:680px;margin:0 auto;text-align:center">
+      <div style="font-size:11px;letter-spacing:0.34em;text-transform:uppercase;color:#d9a878;margin-bottom:18px">About the Artist</div>
+      <div style="width:44px;height:1px;background:linear-gradient(90deg,transparent,#c9a24f,transparent);margin:0 auto 26px"></div>
+      <p style="font-family:'Newsreader',serif;font-size:clamp(21px,2.7vw,30px);line-height:1.5;color:#f2ead8;margin:0">
+        <span style="float:left;font-size:clamp(58px,8vw,86px);line-height:0.78;padding:6px 12px 0 0;color:#d9a878;font-style:italic">I</span>gravitate to problems where the answer isn't a library call — model internals, physical simulation, and squeezing latency out of systems. This room is where I keep the work while I figure out the next hard thing.
+      </p>
+      <div style="clear:both;font-family:'Newsreader',serif;font-style:italic;font-size:19px;color:#c9a24f;margin-top:30px">— Your Name</div>
+    </div>
+    <div style="position:relative;margin-top:clamp(44px,6vw,72px);display:flex;justify-content:center">
+      <div style="display:inline-flex;flex-direction:column;align-items:center;gap:8px;background:linear-gradient(160deg,#e6c778,#b78a34 48%,#7a5e1e);color:#33260f;border-radius:3px;padding:15px 32px;box-shadow:0 22px 42px -20px rgba(0,0,0,0.82),inset 0 1px 0 rgba(255,255,255,0.55),inset 0 -2px 3px rgba(0,0,0,0.4)">
+        <span style="font-family:'Newsreader',serif;font-style:italic;font-size:16px">The Collection of Your Name</span>
+        <span style="font-size:10.5px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(51,38,15,0.78)">Berkeley · MMXXVI · say hello</span>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:1000},&quot;detail&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.5,&quot;max&quot;:1.6,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;×&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;The painting&quot;},&quot;ballScale&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.6,&quot;max&quot;:1.8,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;×&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;The painting&quot;},&quot;beamWidth&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.52,&quot;min&quot;:0.32,&quot;max&quot;:0.8,&quot;step&quot;:0.02,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;The light&quot;},&quot;shadow&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.08,&quot;min&quot;:0.02,&quot;max&quot;:0.3,&quot;step&quot;:0.01,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;The light&quot;}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.state = { lightsUp: false };
+    this.canvasRef = React.createRef();
+    this.glowRef = React.createRef();
+    this.countRef = React.createRef();
+    this.fpsRef = React.createRef();
+    this.labelCountRef = React.createRef();
+    this.mouse = { x:-9999, y:-9999, active:false, down:false };
+    this.balls = [];
+    this.burst = null;
+    this.frames = 0; this.fpsSmooth = 60; this.last = 0;
+    this.imgReady = false;
+    this.lampX = 0.5;        // eased current aim
+    this.lampTargetX = 0.5;  // pointer-driven target
+    this.cssW = 300;
+    this.IMG_URL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Claude_Monet%2C_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son%2C_1875%2C_NGA_61379.jpg/960px-Claude_Monet%2C_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son%2C_1875%2C_NGA_61379.jpg';
+  }
+
+  componentDidMount(){
+    const cv = this.canvasRef.current;
+    this.ctx = cv.getContext('2d');
+    this.resize();
+    this.ro = new ResizeObserver(()=>this.resize());
+    this.ro.observe(cv);
+    this.loadImage();
+    this.raf = requestAnimationFrame(t=>this.loop(t));
+  }
+  componentWillUnmount(){ cancelAnimationFrame(this.raf); if(this.ro) this.ro.disconnect(); }
+
+  loadImage(){
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = ()=>{ this.img = img; this.imgReady = true; this.buildBalls(); };
+    img.onerror = ()=>console.warn('Monet image failed to load');
+    img.src = this.IMG_URL;
+  }
+
+  resize(){
+    const cv = this.canvasRef.current; if(!cv) return;
+    const r = cv.getBoundingClientRect();
+    this.cssW = r.width;
+    this.dpr = Math.min(window.devicePixelRatio||1, 2);
+    const w = Math.max(1, Math.floor(r.width*this.dpr));
+    const h = Math.max(1, Math.floor(r.height*this.dpr));
+    if(w===this.W && h===this.H) return;
+    cv.width = this.W = w; cv.height = this.H = h;
+    if(this.imgReady) this.buildBalls();
+  }
+
+  buildBalls(){
+    if(!this.imgReady || !this.W) return;
+    const imgAspect = this.img.naturalWidth/this.img.naturalHeight;
+    const dens = this.props.detail ?? 1;
+    const rows = Math.round(58 * Math.sqrt(dens) * Math.min(1.15, this.H/(560*this.dpr)));
+    const cols = Math.max(8, Math.round(rows * imgAspect));
+    const oc = document.createElement('canvas'); oc.width=cols; oc.height=rows;
+    const og = oc.getContext('2d');
+    og.drawImage(this.img, 0, 0, cols, rows);
+    let data;
+    try { data = og.getImageData(0,0,cols,rows).data; }
+    catch(e){ console.warn('taint', e); return; }
+    const cellW = this.W/cols, cellH = this.H/rows;
+    const rad = Math.max(cellW, cellH)*0.60;
+    const keep = this.balls.length>0;
+    const old = this.balls; const nb = [];
+    let k=0;
+    for(let j=0;j<rows;j++){
+      for(let i=0;i<cols;i++){
+        const idx=(j*cols+i)*4;
+        const hx=(i+0.5)*cellW, hy=(j+0.5)*cellH;
+        const prev = keep ? old[k] : null;
+        nb.push({
+          hx, hy,
+          x: prev? prev.x : Math.random()*this.W,
+          y: prev? prev.y : Math.random()*this.H,
+          vx: prev? prev.vx : (Math.random()-0.5)*6,
+          vy: prev? prev.vy : (Math.random()-0.5)*6,
+          r: data[idx], g: data[idx+1], b: data[idx+2],
+          rad,
+        });
+        k++;
+      }
+    }
+    this.balls = nb;
+    if(this.labelCountRef.current) this.labelCountRef.current.textContent = nb.length.toLocaleString();
+  }
+
+  reassemble(){ for(const p of this.balls){ p.vx=0; p.vy=0; } }
+  scatter(){ for(const p of this.balls){ const a=Math.random()*6.2832, s=(6+Math.random()*10)*this.dpr; p.vx+=Math.cos(a)*s; p.vy+=Math.sin(a)*s; } }
+
+  scrollToId(id){
+    const el = document.getElementById(id); if(!el) return;
+    const toY = el.getBoundingClientRect().top + window.scrollY - 6;
+    const fromY = window.scrollY, d = Math.min(900, Math.max(360, Math.abs(toY-fromY)*0.6));
+    const start = performance.now(), ease = t=>1-Math.pow(1-t,3);
+    const step = (now)=>{ const t=Math.min(1,(now-start)/d); window.scrollTo(0, fromY+(toY-fromY)*ease(t)); if(t<1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+
+  loop(t){
+    this.raf = requestAnimationFrame(x=>this.loop(x));
+    const ctx=this.ctx; if(!ctx||!this.W) return;
+    const dt = this.last ? (t-this.last) : 16; this.last=t;
+    this.fpsSmooth += (Math.min(120,1000/Math.max(1,dt)) - this.fpsSmooth)*0.08;
+    const dpr=this.dpr, W=this.W, H=this.H;
+
+    // ease the aim toward pointer target + faint idle drift
+    const idle = Math.sin(t*0.0002)*0.02;
+    this.lampX += ((this.lampTargetX + idle) - this.lampX)*0.045;
+    if(this.glowRef.current) this.glowRef.current.style.transform = 'translateX(calc(-50% + '+((this.lampX-0.5)*this.cssW*0.6)+'px))';
+
+    ctx.globalCompositeOperation='source-over';
+    ctx.globalAlpha=1;
+    ctx.fillStyle='#08070c';
+    ctx.fillRect(0,0,W,H);
+
+    const beam = this.props.beamWidth ?? 0.52;
+    const darkFloor = this.props.shadow ?? 0.08;
+    const lightsUp = this.state.lightsUp;
+    const apexX = this.lampX*W;
+    const apexY = -0.55*H;          // light originates well offscreen, above
+    const feather = 90*dpr;
+
+    const k = 0.020, drag = 0.86;
+    const mx=this.mouse.x, my=this.mouse.y, mAct=this.mouse.active;
+    const R = (this.mouse.down? 130:100)*dpr;
+    const bscale = this.props.ballScale ?? 1;
+
+    const balls=this.balls;
+    for(let n=0;n<balls.length;n++){
+      const p=balls[n];
+      p.vx += (p.hx-p.x)*k;
+      p.vy += (p.hy-p.y)*k;
+      if(mAct){
+        const dx=p.x-mx, dy=p.y-my, d2=dx*dx+dy*dy;
+        if(d2 < R*R){ const d=Math.sqrt(d2)||0.01; const f=(1-d/R)*(this.mouse.down?4.2:2.2); p.vx+=dx/d*f; p.vy+=dy/d*f; }
+      }
+      if(this.burst){
+        const dx=p.x-this.burst.x, dy=p.y-this.burst.y, d2=dx*dx+dy*dy, R2=240*dpr;
+        if(d2 < R2*R2){ const d=Math.sqrt(d2)||0.01; const f=(1-d/R2)*13*dpr; p.vx+=dx/d*f; p.vy+=dy/d*f; }
+      }
+      p.vx*=drag; p.vy*=drag;
+      p.x+=p.vx; p.y+=p.vy;
+
+      let bri;
+      if(lightsUp){ bri=1; }
+      else {
+        const dyc = p.y - apexY;
+        const halfW = dyc*beam;
+        const edge = halfW - Math.abs(p.x-apexX);
+        let lit = edge/feather; lit = lit<0?0:(lit>1?1:lit); lit = lit*lit*(3-2*lit);
+        const vAtt = 1 - 0.24*(p.y/H);
+        bri = darkFloor + (1-darkFloor)*lit*vAtt;
+      }
+      const rr=(p.r*bri)|0, gg=(p.g*bri*0.99)|0, bb=(p.b*bri*0.93)|0;
+      const rad=p.rad*bscale;
+      ctx.fillStyle='rgb('+rr+','+gg+','+bb+')';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, rad, 0, 6.2832);
+      ctx.fill();
+    }
+    this.burst=null;
+
+    if(!lightsUp){
+      const bottomHalf=(H-apexY)*beam;
+      const g=ctx.createLinearGradient(0, 0, 0, H);
+      g.addColorStop(0,'rgba(255,240,206,0.14)');
+      g.addColorStop(0.5,'rgba(255,236,196,0.05)');
+      g.addColorStop(1,'rgba(255,236,196,0)');
+      ctx.globalCompositeOperation='lighter';
+      ctx.fillStyle=g;
+      ctx.beginPath();
+      ctx.moveTo(apexX, apexY);
+      ctx.lineTo(apexX+bottomHalf, H);
+      ctx.lineTo(apexX-bottomHalf, H);
+      ctx.closePath();
+      ctx.fill();
+      ctx.globalCompositeOperation='source-over';
+    }
+
+    this.frames++;
+    if(this.frames % 8 === 0){
+      if(this.countRef.current) this.countRef.current.textContent = balls.length.toLocaleString();
+      if(this.fpsRef.current) this.fpsRef.current.textContent = Math.round(this.fpsSmooth);
+    }
+  }
+
+  toCanvas(e){
+    const cv=this.canvasRef.current, r=cv.getBoundingClientRect();
+    return { x:(e.clientX-r.left)*this.dpr, y:(e.clientY-r.top)*this.dpr };
+  }
+
+  renderVals(){
+    const up = this.state.lightsUp;
+    const nav = (id)=>(e)=>{ if(e&&e.preventDefault) e.preventDefault(); this.scrollToId(id); };
+    return {
+      canvasRef:this.canvasRef, glowRef:this.glowRef, countRef:this.countRef, fpsRef:this.fpsRef, labelCountRef:this.labelCountRef,
+      onMove:(e)=>{ const c=this.toCanvas(e); this.mouse.x=c.x; this.mouse.y=c.y; this.mouse.active=true; },
+      onLeave:()=>{ this.mouse.active=false; this.mouse.down=false; },
+      onDown:(e)=>{ const c=this.toCanvas(e); this.burst={x:c.x,y:c.y}; this.mouse.x=c.x; this.mouse.y=c.y; this.mouse.active=true; this.mouse.down=true; try{e.target.setPointerCapture(e.pointerId);}catch(_){} },
+      onUp:()=>{ this.mouse.down=false; },
+      onAim:(e)=>{ const cv=this.canvasRef.current; if(!cv) return; const r=cv.getBoundingClientRect(); let f=(e.clientX-r.left)/r.width; f=Math.max(0.3,Math.min(0.7,f)); this.lampTargetX=f; },
+      toggleLight:()=>this.setState(s=>({lightsUp:!s.lightsUp})),
+      lightLabel: up ? 'house lights' : 'spotlight',
+      lampGlow: up ? '#fff2cf' : '#e6c477',
+      goTop:nav('top'), goWorks:nav('works'), goReading:nav('reading'), goNote:nav('note'),
+      actions:[
+        { label:'Reassemble the painting', hint:'settle', onClick:()=>this.reassemble() },
+        { label:'Scatter the paint', hint:'burst', onClick:()=>this.scatter() },
+      ],
+      projects:[
+        { slot:'[ project still ]', title:'Attention, Rendered', blurb:'An interactive walk through a transformer\u2019s residual stream.', tags:['ai','interpretability'] },
+        { slot:'[ demo capture ]', title:'N-Body, After Nature', blurb:'Barnes\u2013Hut gravity at 60fps. Fling worlds; watch them settle.', tags:['physics','webgl'] },
+        { slot:'[ latency trace ]', title:'The Latency Room', blurb:'A toy matching engine measuring the nanoseconds that matter.', tags:['systems','c++'] },
+      ],
+      posts:[
+        { date:'2026 · V', title:'On rewriting the same particle system, forever' },
+        { date:'2026 · III', title:'Making attention feel like a physical thing' },
+      ],
+      links:[
+        { label:'GitHub', handle:'@your-handle' },
+        { label:'LinkedIn', handle:'/in/your-name' },
+        { label:'Résumé', handle:'pdf' },
+        { label:'Email', handle:'you@berkeley.edu' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

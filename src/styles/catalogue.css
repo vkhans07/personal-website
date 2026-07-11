@@ -1,0 +1,162 @@
+/* Gallery III — the abstract color-field room; sits under the pop art's
+   torn edge. */
+.catalogue {
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  overflow: hidden;
+  background: #160c10;
+  padding: clamp(164px, 16vw, 232px) clamp(20px, 5vw, 64px) clamp(72px, 9vw, 150px);
+}
+
+.catalogue-wash {
+  position: absolute;
+  pointer-events: none;
+}
+.catalogue-wash--1 {
+  top: 4%;
+  left: 8%;
+  width: 70%;
+  height: 40%;
+  background: #7a2e2a;
+  filter: blur(74px);
+  opacity: 0.8;
+}
+.catalogue-wash--2 {
+  top: 36%;
+  right: -6%;
+  width: 62%;
+  height: 42%;
+  background: #5b2b48;
+  filter: blur(84px);
+  opacity: 0.72;
+}
+.catalogue-wash--3 {
+  bottom: -10%;
+  left: -6%;
+  width: 68%;
+  height: 42%;
+  background: #b5542f;
+  filter: blur(94px);
+  opacity: 0.5;
+}
+
+.catalogue-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 40%, transparent 40%, rgba(10, 6, 8, 0.72));
+  pointer-events: none;
+}
+
+.catalogue-inner {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.catalogue-head {
+  margin-bottom: clamp(50px, 7vw, 92px);
+}
+
+.catalogue-kicker {
+  font-size: 11px;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: #d8a24a;
+  margin-bottom: 14px;
+}
+
+.catalogue-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(40px, 7vw, 84px);
+  line-height: 0.95;
+  color: #f2e7d4;
+  margin: 0;
+}
+
+.cat-entry {
+  position: relative;
+  display: block;
+  max-width: 600px;
+  margin: 0 0 clamp(46px, 6vw, 80px) 0;
+}
+.cat-entry--right {
+  margin-left: auto;
+  margin-right: 0;
+  text-align: right;
+}
+.cat-entry--center {
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.cat-entry:last-child {
+  margin-bottom: 0;
+}
+
+.cat-entry-num {
+  position: absolute;
+  top: -54px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(90px, 14vw, 168px);
+  color: rgba(242, 231, 212, 0.06);
+  line-height: 1;
+  pointer-events: none;
+}
+.cat-entry--left .cat-entry-num { left: -6px; }
+.cat-entry--right .cat-entry-num { right: -6px; }
+.cat-entry--center .cat-entry-num {
+  left: 50%;
+  top: -56px;
+  transform: translateX(-50%);
+}
+
+.cat-entry-body {
+  position: relative;
+}
+
+.cat-entry-rule {
+  width: 56px;
+  height: 3px;
+  margin-bottom: 18px;
+}
+.cat-entry--left .cat-entry-rule { transform: rotate(-2deg); }
+.cat-entry--right .cat-entry-rule {
+  transform: rotate(2deg);
+  margin-left: auto;
+}
+.cat-entry--center .cat-entry-rule {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cat-entry-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(24px, 3.4vw, 38px);
+  line-height: 1.1;
+  color: #f4ecda;
+  margin: 0 0 10px;
+}
+
+.cat-entry-blurb {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #bca893;
+  margin: 0;
+  max-width: 44ch;
+}
+.cat-entry--right .cat-entry-blurb { margin-left: auto; }
+.cat-entry--center .cat-entry-blurb { margin: 0 auto; }
+
+.cat-entry-year {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: #9a8f7c;
+  margin-top: 12px;
+}
