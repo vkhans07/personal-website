@@ -1,14 +1,44 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import type { ChangeEvent } from 'react'
 import { useMonetEngine, FRAME_URL } from '../hooks/useMonetEngine'
 import { useScrollLag } from '../hooks/useScrollLag'
+import { paintings } from '../data/site'
 import IdentityPanel from './IdentityPanel'
 import LightPanel from './LightPanel'
 import '../styles/hero.css'
 
 export default function Hero() {
   const [lightsUp, setLightsUp] = useState(false)
-  const engine = useMonetEngine(lightsUp)
+  const [idx, setIdx] = useState(0)
+  const [customUrl, setCustomUrl] = useState<string | null>(null)
+  const fileInput = useRef<HTMLInputElement | null>(null)
+
+  const current = customUrl
+    ? { title: 'Untitled', artist: 'You', origin: 'fresh from your files', url: customUrl }
+    : paintings[idx]
+
+  const engine = useMonetEngine(lightsUp, current.url)
   const workLag = useScrollLag<HTMLDivElement>(0.18)
+
+  const clearCustom = () => {
+    if (customUrl) URL.revokeObjectURL(customUrl)
+    setCustomUrl(null)
+  }
+  const step = (d: number) => {
+    clearCustom()
+    setIdx((i) => (i + d + paintings.length) % paintings.length)
+  }
+  const pick = (i: number) => {
+    clearCustom()
+    setIdx(i)
+  }
+  const onFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0]
+    if (!f) return
+    if (customUrl) URL.revokeObjectURL(customUrl)
+    setCustomUrl(URL.createObjectURL(f))
+    e.target.value = ''
+  }
 
   return (
     <section id="top" className="hero" onPointerMove={engine.onAim}>
@@ -40,14 +70,66 @@ export default function Hero() {
           />
         </div>
 
-        {/* wall label: frosted plate below the work */}
+        {/* wall label: frosted plate below the work, with the exhibit rail */}
         <div className="wall-label">
           <div className="wall-label-title">
-            After Monet — <span>Woman with a Parasol</span>
+            After {current.artist} — <span>{current.title}</span>
           </div>
           <div className="wall-label-sub">
             reassembled in <span ref={engine.labelCountRef}>2,600</span> points
-            of light · after the 1875 oil
+            of light · {current.origin}
+          </div>
+          <div className="wall-label-rule" />
+          <div className="carousel-row">
+            <button
+              className="carousel-arrow"
+              aria-label="previous painting"
+              onClick={() => step(-1)}
+            >
+              ←
+            </button>
+            <div className="carousel-dots">
+              {paintings.map((p, i) => (
+                <button
+                  key={p.title}
+                  className={
+                    'carousel-dot' + (!customUrl && i === idx ? ' is-active' : '')
+                  }
+                  aria-label={`${p.title} — ${p.artist}`}
+                  title={`${p.artist} · ${p.title}`}
+                  onClick={() => pick(i)}
+                />
+              ))}
+              {customUrl && (
+                <button
+                  className="carousel-dot carousel-dot--custom is-active"
+                  aria-label="your upload"
+                  title="You · Untitled"
+                />
+              )}
+            </div>
+            <button
+              className="carousel-arrow"
+              aria-label="next painting"
+              onClick={() => step(1)}
+            >
+              →
+            </button>
+          </div>
+          <div className="carousel-upload-row">
+            <button
+              className="carousel-upload"
+              onClick={() => fileInput.current?.click()}
+            >
+              hang your own painting
+            </button>
+            <input
+              ref={fileInput}
+              type="file"
+              accept="image/*"
+              hidden
+              onChange={onFile}
+            />
           </div>
           <div className="wall-label-rule" />
           <div className="wall-label-hint">

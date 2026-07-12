@@ -24,10 +24,11 @@ npm run build    # typecheck + production build → dist/
 ## Where things live
 
 - `src/data/site.ts` — **all the words**: your name, bio, links, works,
-  posts. Start here; the components read from it.
+  posts, and the `paintings` carousel (title/artist/origin/url per work).
+  Start here; the components read from it.
 - `src/hooks/useMonetEngine.ts` — the hero painting: particle sim, spotlight
-  cone, pointer interaction. Tuning knobs at the top (`PAINTING`), plus the
-  Monet and frame image URLs.
+  cone, pointer interaction, artwork swapping. Tuning knobs at the top
+  (`PAINTING`), plus the gilt-frame image URL.
 - `src/components/` — one component per room: `Hero` (with `IdentityPanel` /
   `LightPanel`), `SelectedWorks`, `Catalogue`, `Colophon`, `GalleryNav`.
 - `src/styles/` — one stylesheet per room; shared tokens and the frosted
@@ -35,9 +36,10 @@ npm run build    # typecheck + production build → dist/
 
 ## Notes / TODO
 
-- The Monet and the gilt-frame PNG load from Wikimedia Commons (public
+- The paintings and the gilt-frame PNG load from Wikimedia Commons (public
   domain). Self-host them under `public/` before launch — the sim reads
-  pixels via `getImageData`, so the image must be same-origin or CORS-enabled.
+  pixels via `getImageData`, so images must be same-origin or CORS-enabled.
+  (Visitor uploads use `blob:` URLs, which are always same-origin.)
 - `links` in `site.ts` point at placeholder handles; `/resume.pdf` doesn't
   exist yet (drop one in `public/`).
 - The catalogue entries link back to `#reading` — wire them to real posts

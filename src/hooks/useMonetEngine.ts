@@ -1,9 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { PointerEvent as ReactPointerEvent } from 'react'
 
-export const MONET_URL =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Claude_Monet%2C_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son%2C_1875%2C_NGA_61379.jpg/960px-Claude_Monet%2C_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son%2C_1875%2C_NGA_61379.jpg'
-
 export const FRAME_URL =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Jacques-louis_david%2C_marte_disarmato_da_venere%2C_1824%2C_picture_frame.png/960px-Jacques-louis_david%2C_marte_disarmato_da_venere%2C_1824%2C_picture_frame.png'
 
@@ -46,13 +43,15 @@ interface EngineState {
   dpr: number
 }
 
-// The painting: the Monet is downsampled to a small grid, one spring-damped
-// ball per pixel. Every frame each ball is pulled home, shoved by the
-// pointer, and lit by a cone of light whose apex sits offscreen above the
-// frame. All mutable sim state lives outside React; the only React state is
-// `lightsUp`, passed in and mirrored into a ref so the RAF loop reads it
-// without re-subscribing.
-export function useMonetEngine(lightsUp: boolean) {
+// The painting: the current artwork is downsampled to a small grid, one
+// spring-damped ball per pixel. Every frame each ball is pulled home,
+// shoved by the pointer, and lit by a cone of light whose apex sits
+// offscreen above the frame. All mutable sim state lives outside React;
+// the only React inputs are `lightsUp` (mirrored into a ref so the RAF
+// loop reads it without re-subscribing) and `src`, which can change at any
+// time — the new image is loaded, the grid rebuilt in place, and the dots
+// scattered so the painting visibly repaints itself.
+export function useMonetEngine(lightsUp: boolean, src: string) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const glowRef = useRef<HTMLDivElement | null>(null)
   const countRef = useRef<HTMLSpanElement | null>(null)
@@ -80,64 +79,80 @@ export function useMonetEngine(lightsUp: boolean) {
     dpr: 1,
   }).current
 
+  const buildBalls = () => {
+    if (!st.imgReady || !st.img || !st.W) return
+    const imgAspect = st.img.naturalWidth / st.img.naturalHeight
+    const rows = Math.max(
+      2,
+      Math.round(
+        58 * Math.sqrt(PAINTING.detail) * Math.min(1.15, st.H / (560 * st.dpr)),
+      ),
+    )
+    const cols = Math.max(8, Math.round(rows * imgAspect))
+    const oc = document.createElement('canvas')
+    oc.width = cols
+    oc.height = rows
+    const og = oc.getContext('2d')
+    if (!og) return
+    og.drawImage(st.img, 0, 0, cols, rows)
+    let data: Uint8ClampedArray
+    try {
+      data = og.getImageData(0, 0, cols, rows).data
+    } catch (e) {
+      console.warn('canvas tainted — image must be served with CORS', e)
+      return
+    }
+    const cellW = st.W / cols
+    const cellH = st.H / rows
+    const rad = Math.max(cellW, cellH) * 0.6
+    const old = st.balls
+    const nb: Ball[] = []
+    let k = 0
+    for (let j = 0; j < rows; j++) {
+      for (let i = 0; i < cols; i++) {
+        const idx = (j * cols + i) * 4
+        const prev = k < old.length ? old[k] : null
+        nb.push({
+          hx: (i + 0.5) * cellW,
+          hy: (j + 0.5) * cellH,
+          x: prev ? prev.x : Math.random() * st.W,
+          y: prev ? prev.y : Math.random() * st.H,
+          vx: prev ? prev.vx : (Math.random() - 0.5) * 6,
+          vy: prev ? prev.vy : (Math.random() - 0.5) * 6,
+          r: data[idx],
+          g: data[idx + 1],
+          b: data[idx + 2],
+          rad,
+        })
+        k++
+      }
+    }
+    st.balls = nb
+    if (labelCountRef.current)
+      labelCountRef.current.textContent = nb.length.toLocaleString()
+  }
+
+  const reassemble = () => {
+    for (const p of st.balls) {
+      p.vx = 0
+      p.vy = 0
+    }
+  }
+
+  const scatter = () => {
+    for (const p of st.balls) {
+      const a = Math.random() * 6.2832
+      const s = (6 + Math.random() * 10) * st.dpr
+      p.vx += Math.cos(a) * s
+      p.vy += Math.sin(a) * s
+    }
+  }
+
+  // mount once: canvas context, resize observer, render loop
   useEffect(() => {
     const cv = canvasRef.current
     if (!cv) return
     st.ctx = cv.getContext('2d')
-
-    const buildBalls = () => {
-      if (!st.imgReady || !st.img || !st.W) return
-      const imgAspect = st.img.naturalWidth / st.img.naturalHeight
-      const rows = Math.max(
-        2,
-        Math.round(
-          58 * Math.sqrt(PAINTING.detail) * Math.min(1.15, st.H / (560 * st.dpr)),
-        ),
-      )
-      const cols = Math.max(8, Math.round(rows * imgAspect))
-      const oc = document.createElement('canvas')
-      oc.width = cols
-      oc.height = rows
-      const og = oc.getContext('2d')
-      if (!og) return
-      og.drawImage(st.img, 0, 0, cols, rows)
-      let data: Uint8ClampedArray
-      try {
-        data = og.getImageData(0, 0, cols, rows).data
-      } catch (e) {
-        console.warn('canvas tainted — image must be served with CORS', e)
-        return
-      }
-      const cellW = st.W / cols
-      const cellH = st.H / rows
-      const rad = Math.max(cellW, cellH) * 0.6
-      const keep = st.balls.length > 0
-      const old = st.balls
-      const nb: Ball[] = []
-      let k = 0
-      for (let j = 0; j < rows; j++) {
-        for (let i = 0; i < cols; i++) {
-          const idx = (j * cols + i) * 4
-          const prev = keep ? old[k] : null
-          nb.push({
-            hx: (i + 0.5) * cellW,
-            hy: (j + 0.5) * cellH,
-            x: prev ? prev.x : Math.random() * st.W,
-            y: prev ? prev.y : Math.random() * st.H,
-            vx: prev ? prev.vx : (Math.random() - 0.5) * 6,
-            vy: prev ? prev.vy : (Math.random() - 0.5) * 6,
-            r: data[idx],
-            g: data[idx + 1],
-            b: data[idx + 2],
-            rad,
-          })
-          k++
-        }
-      }
-      st.balls = nb
-      if (labelCountRef.current)
-        labelCountRef.current.textContent = nb.length.toLocaleString()
-    }
 
     const resize = () => {
       const r = cv.getBoundingClientRect()
@@ -273,21 +288,36 @@ export function useMonetEngine(lightsUp: boolean) {
     ro.observe(cv)
     resize()
 
-    const img = new Image()
-    img.crossOrigin = 'anonymous'
-    img.onload = () => {
-      st.img = img
-      st.imgReady = true
-      buildBalls()
-    }
-    img.onerror = () => console.warn('Monet image failed to load')
-    img.src = MONET_URL
-
     return () => {
       cancelAnimationFrame(raf)
       ro.disconnect()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [st])
+
+  // (re)load the artwork whenever src changes; blob: URLs from uploads work
+  // too since they're same-origin for getImageData purposes
+  useEffect(() => {
+    let cancelled = false
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => {
+      if (cancelled) return
+      const swapping = st.imgReady
+      st.img = img
+      st.imgReady = true
+      buildBalls()
+      if (swapping) scatter() // repaint with a burst instead of a blink
+    }
+    img.onerror = () => {
+      if (!cancelled) console.warn('painting failed to load:', src)
+    }
+    img.src = src
+    return () => {
+      cancelled = true
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [src, st])
 
   const toCanvas = (e: ReactPointerEvent) => {
     const cv = canvasRef.current!
@@ -336,20 +366,8 @@ export function useMonetEngine(lightsUp: boolean) {
       f = Math.max(0.3, Math.min(0.7, f))
       st.lampTargetX = f
     },
-    reassemble: () => {
-      for (const p of st.balls) {
-        p.vx = 0
-        p.vy = 0
-      }
-    },
-    scatter: () => {
-      for (const p of st.balls) {
-        const a = Math.random() * 6.2832
-        const s = (6 + Math.random() * 10) * st.dpr
-        p.vx += Math.cos(a) * s
-        p.vy += Math.sin(a) * s
-      }
-    },
+    reassemble,
+    scatter,
   }
 }
 
