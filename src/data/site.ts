@@ -1,6 +1,11 @@
 // All the words on the site live here — swap in your real name, links,
 // and writing without touching the components.
 
+// Artwork for the selected works. Importing (rather than a path string) lets
+// Vite bundle the file and rewrite the URL for production.
+import muscelDemo from '../assets/muscel_demo.png'
+import raytraceOutput from '../assets/output.png'
+
 export const site = {
   name: 'Vijay Kumar Hans',
   nameLines: ['Vijay', 'Hans'],
@@ -83,14 +88,41 @@ export interface Work {
   title: string
   credit: string
   href?: string
+  // Optional custom artwork: import the file at the top of this module (Vite
+  // bundles it and rewrites the URL) or use an external URL. When omitted,
+  // the piece falls back to its generated pop-art placeholder.
+  image?: string
+  imageAlt?: string
+  // Shown in the frosted-glass panel that opens when the piece is clicked.
+  description?: string
 }
 
 // The three hero pieces in the pop-art room; their bespoke visual treatments
 // (pinned / leaning / hung) live in SelectedWorks.tsx.
 export const works: Work[] = [
-  { title: 'Muscel', credit: 'CONSUMER — 2026' },
-  { title: 'CPU Raytracing', credit: 'PHYSICS — 2026' },
-  { title: 'LLM Coursework Generation', credit: 'AI IN EDTECH — 2026' },
+  {
+    title: 'Muscel',
+    credit: 'CONSUMER — 2026',
+    image: muscelDemo,
+    href: 'https://muscel.net',
+    description:
+      'Empowering your workout goals with machine learning. Built with React Native, Python, Supabase, and SQLite.',
+  },
+  {
+    title: 'CPU Raytracing',
+    credit: 'PHYSICS — 2026',
+    image: raytraceOutput,
+    href: 'https://github.com/vkhans07/raytracing_project',
+    description:
+      'Emulates light travel in a 3D world for a maximally realistic visual. Built in C++.',
+  },
+  {
+    title: 'LLM Coursework Generation',
+    credit: 'AI IN EDTECH — 2026',
+    href: 'https://github.com/vkhans07/oa-tutor-workflow-automation',
+    description:
+      'An LLM pipeline that drafts coursework — problem sets, solutions, and rubrics — for instructors to refine. Built in Python with the Gemini SDK.',
+  },
 ]
 
 export interface Post {
