@@ -25,6 +25,12 @@ interface Ball {
   rad: number
 }
 
+// After a scatter the springs stay slack for the hold, then stiffness
+// ramps from 0 back to full so the return starts gently instead of snapping.
+const SCATTER_HOLD_MS = 300
+const SPRING_RAMP_MS = 300
+const SPRING_K = 0.2
+
 interface EngineState {
   ctx: CanvasRenderingContext2D | null
   img: HTMLImageElement | null
@@ -32,6 +38,7 @@ interface EngineState {
   balls: Ball[]
   mouse: { x: number; y: number; active: boolean; down: boolean }
   burst: { x: number; y: number } | null
+  springHoldUntil: number
   frames: number
   fpsSmooth: number
   last: number
@@ -68,6 +75,7 @@ export function useMonetEngine(lightsUp: boolean, src: string) {
     balls: [],
     mouse: { x: -9999, y: -9999, active: false, down: false },
     burst: null,
+    springHoldUntil: 0,
     frames: 0,
     fpsSmooth: 60,
     last: 0,
@@ -132,19 +140,18 @@ export function useMonetEngine(lightsUp: boolean, src: string) {
       labelCountRef.current.textContent = nb.length.toLocaleString()
   }
 
-  const reassemble = () => {
-    for (const p of st.balls) {
-      p.vx = 0
-      p.vy = 0
-    }
-  }
-
+// teleport every dot to a fully random point on the canvas; the springs
+  // stay slack for SCATTER_HOLD_MS so the disorder is visible, then pull
+  // the painting back together
   const scatter = () => {
+    st.springHoldUntil = performance.now() + SCATTER_HOLD_MS
     for (const p of st.balls) {
+      p.x = Math.random() * st.W
+      p.y = Math.random() * st.H
       const a = Math.random() * 6.2832
-      const s = (6 + Math.random() * 10) * st.dpr
-      p.vx += Math.cos(a) * s
-      p.vy += Math.sin(a) * s
+      const s = (2 + Math.random() * 4) * st.dpr
+      p.vx = Math.cos(a) * s
+      p.vy = Math.sin(a) * s
     }
   }
 
@@ -194,10 +201,14 @@ export function useMonetEngine(lightsUp: boolean, src: string) {
       const apexY = -0.55 * H // light originates well offscreen, above
       const feather = 90 * dpr
 
-      const k = 0.02
-      const drag = 0.86
+      // spring stiffness: 0 while the scatter holds, then eased back to full
+      const sinceHold = t - st.springHoldUntil
+      const ramp =
+        sinceHold <= 0 ? 0 : Math.min(1, sinceHold / SPRING_RAMP_MS)
+      const k = SPRING_K * ramp * ramp // quadratic ease-in for a soft start
+      const drag = 0.75
       const { x: mx, y: my, active: mAct, down } = st.mouse
-      const R = (down ? 130 : 100) * dpr
+      const R = (down ? 240 : 180) * dpr
       const bscale = PAINTING.ballScale
 
       const balls = st.balls
@@ -211,7 +222,7 @@ export function useMonetEngine(lightsUp: boolean, src: string) {
           const d2 = dx * dx + dy * dy
           if (d2 < R * R) {
             const d = Math.sqrt(d2) || 0.01
-            const f = (1 - d / R) * (down ? 4.2 : 2.2)
+            const f = (1 - d / R) * (down ? 7.5 : 4.5)
             p.vx += (dx / d) * f
             p.vy += (dy / d) * f
           }
@@ -366,7 +377,6 @@ export function useMonetEngine(lightsUp: boolean, src: string) {
       f = Math.max(0.3, Math.min(0.7, f))
       st.lampTargetX = f
     },
-    reassemble,
     scatter,
   }
 }

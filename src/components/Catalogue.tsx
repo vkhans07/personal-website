@@ -35,6 +35,7 @@ function CatEntry({ post, index }: { post: Post; index: number }) {
     <a
       ref={lag}
       href={post.href ?? '#reading'}
+      target="_blank"
       className={`cat-entry cat-entry--${post.align}`}
     >
       <div className="cat-entry-num">{String(index + 1).padStart(2, '0')}</div>

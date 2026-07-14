@@ -104,23 +104,25 @@ export interface Post {
 
 export const posts: Post[] = [
   {
-    title: 'On rewriting the same particle system, forever',
-    blurb: 'Why I keep rebuilding the same two thousand dots — and what quietly changes each time.',
+    title: 'The Handshake Problem',
+    blurb: 'How the American Revolution restructured its upper class, summarized in our most iconic greeting.',
     year: '2026',
     align: 'left',
     accent: '#c56a4a',
+    href: "https://substack.com/profile/290641001-vijay-hans/note/c-294185659",
   },
   {
-    title: 'Making attention feel like a physical thing',
-    blurb: 'Notes toward an intuition for what a transformer is actually doing under the hood.',
-    year: '2026',
+    title: 'East German Identity After Reunification',
+    blurb: 'The fall of the Berlin Wall was only the start of a larger cultural shift.',
+    year: '2025',
     align: 'right',
     accent: '#8a9a6b',
+    href: "https://1drv.ms/w/c/99ef4cbe9954b0a6/IQDFCCmPkxavTZuhNKAhaju6AWbCy4tx27QFE-SHCpU7stE?e=6qFvDG"
   },
   {
-    title: 'The cost of a cache miss, felt',
-    blurb: 'Measuring the memory hierarchy until the nanoseconds turned into something I could feel.',
-    year: '2025',
+    title: 'Ulysses S. Grant & Masculinity',
+    blurb: 'Coming Soon!',
+    year: '2026',
     align: 'center',
     accent: '#d8a24a',
   },

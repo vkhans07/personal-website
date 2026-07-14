@@ -26,7 +26,6 @@ export default function SelectedWorks() {
               Works
             </h2>
           </div>
-          <div className="works-caption">// pinned · leaning · hung · whispered</div>
         </div>
 
         <div className="works-row">

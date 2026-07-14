@@ -7,37 +7,59 @@ import IdentityPanel from './IdentityPanel'
 import LightPanel from './LightPanel'
 import '../styles/hero.css'
 
+const CUSTOM_KEY = 'hero-custom-painting'
+
 export default function Hero() {
   const [lightsUp, setLightsUp] = useState(false)
   const [idx, setIdx] = useState(0)
-  const [customUrl, setCustomUrl] = useState<string | null>(null)
+  const [customUrl, setCustomUrl] = useState<string | null>(() => {
+    try {
+      return localStorage.getItem(CUSTOM_KEY)
+    } catch {
+      return null
+    }
+  })
   const fileInput = useRef<HTMLInputElement | null>(null)
 
-  const current = customUrl
+  // the upload occupies one extra slot at the end of the carousel
+  const total = paintings.length + (customUrl ? 1 : 0)
+  const isCustom = customUrl !== null && idx === paintings.length
+
+  const current = isCustom
     ? { title: 'Untitled', artist: 'You', origin: 'fresh from your files', url: customUrl }
-    : paintings[idx]
+    : paintings[idx % paintings.length]
 
   const engine = useMonetEngine(lightsUp, current.url)
   const workLag = useScrollLag<HTMLDivElement>(0.18)
 
-  const clearCustom = () => {
-    if (customUrl) URL.revokeObjectURL(customUrl)
-    setCustomUrl(null)
-  }
-  const step = (d: number) => {
-    clearCustom()
-    setIdx((i) => (i + d + paintings.length) % paintings.length)
-  }
-  const pick = (i: number) => {
-    clearCustom()
-    setIdx(i)
-  }
+  const step = (d: number) => setIdx((i) => (i + d + total) % total)
+  const pick = (i: number) => setIdx(i)
   const onFile = (e: ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0]
     if (!f) return
-    if (customUrl) URL.revokeObjectURL(customUrl)
-    setCustomUrl(URL.createObjectURL(f))
     e.target.value = ''
+    const obj = URL.createObjectURL(f)
+    const img = new Image()
+    img.onload = () => {
+      URL.revokeObjectURL(obj)
+      // downscale + re-encode so the data URL fits in localStorage; the
+      // engine samples it down to a coarse grid anyway
+      const scale = Math.min(1, 1280 / Math.max(img.naturalWidth, img.naturalHeight))
+      const c = document.createElement('canvas')
+      c.width = Math.max(1, Math.round(img.naturalWidth * scale))
+      c.height = Math.max(1, Math.round(img.naturalHeight * scale))
+      c.getContext('2d')?.drawImage(img, 0, 0, c.width, c.height)
+      const url = c.toDataURL('image/jpeg', 0.85)
+      try {
+        localStorage.setItem(CUSTOM_KEY, url)
+      } catch {
+        /* quota exceeded — still shown this session, just not persisted */
+      }
+      setCustomUrl(url)
+      setIdx(paintings.length)
+    }
+    img.onerror = () => URL.revokeObjectURL(obj)
+    img.src = obj
   }
 
   return (
@@ -93,7 +115,7 @@ export default function Hero() {
                 <button
                   key={p.title}
                   className={
-                    'carousel-dot' + (!customUrl && i === idx ? ' is-active' : '')
+                    'carousel-dot' + (!isCustom && i === idx ? ' is-active' : '')
                   }
                   aria-label={`${p.title} — ${p.artist}`}
                   title={`${p.artist} · ${p.title}`}
@@ -102,9 +124,13 @@ export default function Hero() {
               ))}
               {customUrl && (
                 <button
-                  className="carousel-dot carousel-dot--custom is-active"
+                  className={
+                    'carousel-dot carousel-dot--custom' +
+                    (isCustom ? ' is-active' : '')
+                  }
                   aria-label="your upload"
                   title="You · Untitled"
+                  onClick={() => pick(paintings.length)}
                 />
               )}
             </div>
@@ -143,7 +169,6 @@ export default function Hero() {
       <LightPanel
         lightsUp={lightsUp}
         onToggle={() => setLightsUp((v) => !v)}
-        onReassemble={engine.reassemble}
         onScatter={engine.scatter}
       />
     </section>

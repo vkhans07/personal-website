@@ -3,13 +3,11 @@ import Pegs from './Pegs'
 interface Props {
   lightsUp: boolean
   onToggle: () => void
-  onReassemble: () => void
   onScatter: () => void
 }
 
-export default function LightPanel({ lightsUp, onToggle, onReassemble, onScatter }: Props) {
+export default function LightPanel({ lightsUp, onToggle, onScatter }: Props) {
   const actions = [
-    { label: 'Reassemble the painting', hint: 'settle', onClick: onReassemble },
     { label: 'Scatter the paint', hint: 'burst', onClick: onScatter },
   ]
 
