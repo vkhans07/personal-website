@@ -144,12 +144,12 @@ export const posts: Post[] = [
     href: "https://substack.com/profile/290641001-vijay-hans/note/c-294185659",
   },
   {
-    title: 'East German Identity After Reunification',
-    blurb: 'The fall of the Berlin Wall was only the start of a larger cultural shift.',
-    year: '2025',
+    title: 'Write-Only Character Assessments',
+    blurb: 'The internet forgot how to forget.',
+    year: '2026',
     align: 'right',
     accent: '#8a9a6b',
-    href: "https://1drv.ms/w/c/99ef4cbe9954b0a6/IQDFCCmPkxavTZuhNKAhaju6AWbCy4tx27QFE-SHCpU7stE?e=6qFvDG"
+    href: "https://substack.com/home/post/p-207386590"
   },
   {
     title: 'Ulysses S. Grant & Masculinity',
