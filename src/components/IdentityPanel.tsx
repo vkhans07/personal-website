@@ -1,6 +1,6 @@
 import { site, links } from '../data/site'
 import Pegs from './Pegs'
-
+import Webring from './Webring'
 export default function IdentityPanel() {
   return (
     <div className="wall-panel wall-panel--identity">
@@ -32,6 +32,7 @@ export default function IdentityPanel() {
           </span>
         </a>
       ))}
+      <Webring></Webring>
     </div>
   )
 }

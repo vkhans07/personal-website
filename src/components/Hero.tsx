@@ -6,7 +6,6 @@ import { paintings } from '../data/site'
 import IdentityPanel from './IdentityPanel'
 import LightPanel from './LightPanel'
 import '../styles/hero.css'
-
 const CUSTOM_KEY = 'hero-custom-painting'
 
 export default function Hero() {
@@ -164,7 +163,7 @@ export default function Hero() {
           </div>
         </div>
       </div>
-
+      
       <IdentityPanel />
       <LightPanel
         lightsUp={lightsUp}
