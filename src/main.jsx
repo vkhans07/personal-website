@@ -11,11 +11,30 @@ import WordHuntDialog from './components/WordHuntDialog.jsx';
 
 function App() {
   const [wordHuntOpen, setWordHuntOpen] = useState(false);
-  return <div className="site-shell"><SiteHeader /><main id="top"><HeroSection /><NowSection /><WorkSection onWordHunt={() => setWordHuntOpen(true)} /><ResumeSections /></main><SiteFooter /><div id="writing" />
-    {/* TODO(attention): implement hero-word attention weights and page highlights. */}
-    {/* TODO(word-hunt): implement the API route in server/ and connect the dialog. */}
-    {wordHuntOpen && <WordHuntDialog onClose={() => setWordHuntOpen(false)} />}
-  </div>;
+
+  return (
+    <div className="site-shell">
+      <SiteHeader />
+
+      <main id="top">
+        <HeroSection />
+        <NowSection />
+        <WorkSection onWordHunt={() => setWordHuntOpen(true)} />
+        <ResumeSections />
+      </main>
+
+      <SiteFooter />
+      <div id="writing" />
+
+      {/* TODO(attention): implement hero-word attention weights and page highlights. */}
+      {/* TODO(word-hunt): implement the API route in server/ and connect the dialog. */}
+      {wordHuntOpen && <WordHuntDialog onClose={() => setWordHuntOpen(false)} />}
+    </div>
+  );
 }
 
-createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>);
+createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+);
