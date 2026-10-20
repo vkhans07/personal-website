@@ -1,14 +1,20 @@
 import React from 'react';
 
-export default function SiteHeader() {
+export default function SiteHeader({ isBlogPage = false }) {
   return (
     <header className="site-header">
-      <a className="brand" href="#top">Vijay Kumar Hans</a>
+      <a className="brand" href="/">Vijay Kumar Hans</a>
       <nav aria-label="Main navigation">
-        <a href="#work">Work</a>
-        <a href="#experience">Experience</a>
-        <a href="#writing">Writing</a>
-        <a href="#resume">Resume</a>
+        {isBlogPage ? (
+          <a href="/">Home</a>
+        ) : (
+          <>
+            <a href="#work">Work</a>
+            <a href="#experience">Experience</a>
+            <a href="/blog/">Writing</a>
+            <a href="#resume">Resume</a>
+          </>
+        )}
       </nav>
     </header>
   );

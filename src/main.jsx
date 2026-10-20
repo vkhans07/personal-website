@@ -8,9 +8,14 @@ import WorkSection from './components/WorkSection.jsx';
 import ResumeSections from './components/ResumeSection.jsx';
 import SiteFooter from './components/SiteFooter.jsx';
 import WordHuntDialog from './components/WordHuntDialog.jsx';
+import BlogPage from './components/BlogPage.jsx';
 
 function App() {
   const [wordHuntOpen, setWordHuntOpen] = useState(false);
+
+  if (window.location.pathname.replace(/\/$/, '') === '/blog') {
+    return <BlogPage />;
+  }
 
   return (
     <div className="site-shell">
@@ -24,8 +29,6 @@ function App() {
       </main>
 
       <SiteFooter />
-      <div id="writing" />
-
       {/* TODO(attention): implement hero-word attention weights and page highlights. */}
       {/* TODO(word-hunt): implement the API route in server/ and connect the dialog. */}
       {wordHuntOpen && <WordHuntDialog onClose={() => setWordHuntOpen(false)} />}

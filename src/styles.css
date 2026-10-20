@@ -130,6 +130,54 @@ a:hover {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Blog page                                                                  */
+/* -------------------------------------------------------------------------- */
+
+.blog-page {
+  min-height: 65vh;
+}
+
+.blog-intro {
+  padding: 112px 0 64px;
+}
+
+.blog-intro h1 {
+  margin: 16px 0;
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: clamp(48px, 7vw, 76px);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.blog-intro p {
+  max-width: 560px;
+  margin: 0;
+  color: #4a4a46;
+  font-size: 18px;
+}
+
+.blog-posts {
+  border-top: 1px solid #e4e3df;
+}
+
+.blog-empty-state {
+  padding: 28px 0;
+}
+
+.blog-empty-state h2 {
+  margin: 0 0 8px;
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.blog-empty-state p {
+  margin: 0;
+  color: #5e5e5a;
+}
+
+/* -------------------------------------------------------------------------- */
 /* Current focus                                                             */
 /* -------------------------------------------------------------------------- */
 
@@ -278,6 +326,48 @@ a:hover {
   text-align: right;
 }
 
+.experience-item {
+  border-top: 1px solid #e4e3df;
+}
+
+.experience-item:last-child {
+  border-bottom: 1px solid #e4e3df;
+}
+
+.experience-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 32px;
+  padding: 20px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.experience-summary::-webkit-details-marker {
+  display: none;
+}
+
+.experience-summary::after {
+  width: 18px;
+  color: #5e5e5a;
+  content: '+';
+  font-size: 18px;
+  text-align: center;
+}
+
+.experience-item[open] .experience-summary::after {
+  content: '−';
+}
+
+.experience-bullets {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 20px;
+  padding-left: 20px;
+  color: #4a4a46;
+}
+
 /* -------------------------------------------------------------------------- */
 /* Footer                                                                     */
 /* -------------------------------------------------------------------------- */
@@ -424,6 +514,10 @@ footer {
     padding: 80px 0 60px;
   }
 
+  .blog-intro {
+    padding: 80px 0 48px;
+  }
+
   .now {
     grid-template-columns: 1fr 1fr;
     gap: 18px;
@@ -449,6 +543,10 @@ footer {
   .row-date {
     flex: 1 1 100%;
     text-align: left;
+  }
+
+  .experience-summary::after {
+    margin-left: auto;
   }
 
   .section {

@@ -51,16 +51,49 @@ export const projects = [
 ];
 
 export const experience = [
-  ['CS 61A, UC Berkeley', 'Course Staff (UCS1)', 'Fall 2026'],
-  [
-    'CS Mentors',
-    <>Tech committee, <Mark>Backend</Mark></>,
-    'Fall 2026',
-  ],
-    ['Berkeley Institute for Data Science', 'Research Intern', 'Fall 2026'],
-  ['StellarSleep (YC S23)', 'Software & Data Engineering Intern', 'Summer 2026'],
-    ['CAHLR', 'Content Team Intern', 'Spring 2026'],
-    ['Mu Alpha Theta', 'Math & Stats Test Writer', '2025 & 2026']
+  {
+    organization: 'CS 61A, UC Berkeley',
+    role: 'Course Staff (UCS1)',
+    date: 'Fall 2026',
+    bullets: [
+      'Help students prepare for exams.',
+      'Lead course discussions and office hours.',
+    ],
+  },
+  {
+    organization: 'CS Mentors',
+    role: 'Tech committee',
+    date: 'Fall 2026',
+    bullets: ['Contribute to backend development and scheduling.'],
+  },
+  {
+    organization: 'Berkeley Institute for Data Science',
+    role: 'Research Intern',
+    date: 'Fall 2026',
+    bullets: ['Work on AI pipelines and fine-tuning.'],
+  },
+  {
+    organization: 'StellarSleep (YC S23)',
+    role: 'Software & Data Engineering Intern',
+    date: 'Summer 2026',
+    bullets: [
+      'Built a clinician availability forecasting model using discrete-time survival analysis.',
+      'Fit and evaluated the model on 2,400 provider-weeks.',
+      'Backtests reduced error on total available hours by 54%.',
+    ],
+  },
+  {
+    organization: 'CAHLR',
+    role: 'Content Team Intern',
+    date: 'Spring 2026',
+    bullets: ['Contributed to the content team.'],
+  },
+  {
+    organization: 'Mu Alpha Theta',
+    role: 'Math & Stats Test Writer',
+    date: '2025 & 2026',
+    bullets: ['Write math and statistics test questions.'],
+  },
 ];
 
 export const awards = [
