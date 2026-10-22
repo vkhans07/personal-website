@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {projects} from '../data.jsx';
 import {Mark, SectionHeading} from '../ui.jsx';
+import AttentionText from '../attention/AttentionText.jsx';
 
 function ProjectCard({ project, onPreview, onWordHunt }) {
   function handleClick(event) {
@@ -20,7 +21,9 @@ function ProjectCard({ project, onPreview, onWordHunt }) {
       onClick={handleClick}
     >
       <span className="project-title">{project.title}</span>
-      <span className="project-description">{project.description}</span>
+      <span className="project-description">
+        <AttentionText id={`project.${project.id}.description`}>{project.description}</AttentionText>
+      </span>
       <span className="project-meta">{project.meta}</span>
     </a>
   );

@@ -116,6 +116,65 @@ a:hover {
   line-height: 1.12;
 }
 
+.hero-word {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.hero-word:hover,
+.hero-word:focus-visible,
+.hero-word[aria-pressed='true'] {
+  background: rgba(31, 79, 216, 0.1);
+  outline: none;
+}
+
+.hero-word:focus-visible {
+  box-shadow: 0 0 0 2px rgba(31, 79, 216, 0.5);
+}
+
+.attention-mode-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 4px;
+}
+
+.attention-mode-option {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: color 160ms ease;
+}
+
+.attention-mode-option[aria-pressed='true'] {
+  color: #1f4fd8;
+}
+
+.attention-mode-option:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid rgba(31, 79, 216, 0.5);
+  outline-offset: 2px;
+}
+
+.attention-highlight {
+  border-radius: 3px;
+  background: rgba(31, 79, 216, var(--attention-opacity, 0.06));
+  transition: background-color 260ms ease;
+}
+
 .hint {
   margin: 0;
   color: #5e5e5a;
@@ -339,13 +398,14 @@ a:hover {
   flex-wrap: wrap;
   align-items: baseline;
   gap: 4px 32px;
+  width: 100%;
   padding: 20px 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
   cursor: pointer;
-  list-style: none;
-}
-
-.experience-summary::-webkit-details-marker {
-  display: none;
 }
 
 .experience-summary::after {
@@ -354,9 +414,10 @@ a:hover {
   content: '+';
   font-size: 18px;
   text-align: center;
+  transition: color 180ms ease;
 }
 
-.experience-item[open] .experience-summary::after {
+.experience-item[data-open='true'] .experience-summary::after {
   content: '−';
 }
 
@@ -366,6 +427,32 @@ a:hover {
   margin: 0 0 20px;
   padding-left: 20px;
   color: #4a4a46;
+}
+
+.experience-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 220ms ease, opacity 180ms ease;
+}
+
+.experience-item[data-open='true'] .experience-content {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.experience-content-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .experience-content,
+  .experience-summary::after,
+  .attention-highlight,
+  .attention-mode-option {
+    transition: none;
+  }
 }
 
 /* -------------------------------------------------------------------------- */

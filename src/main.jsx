@@ -9,6 +9,7 @@ import ResumeSections from './components/ResumeSection.jsx';
 import SiteFooter from './components/SiteFooter.jsx';
 import WordHuntDialog from './components/WordHuntDialog.jsx';
 import BlogPage from './components/BlogPage.jsx';
+import {AttentionProvider} from './attention/AttentionContext.jsx';
 
 function App() {
   const [wordHuntOpen, setWordHuntOpen] = useState(false);
@@ -18,21 +19,22 @@ function App() {
   }
 
   return (
-    <div className="site-shell">
-      <SiteHeader />
+    <AttentionProvider>
+      <div className="site-shell">
+        <SiteHeader />
 
-      <main id="top">
-        <HeroSection />
-        <NowSection />
-        <WorkSection onWordHunt={() => setWordHuntOpen(true)} />
-        <ResumeSections />
-      </main>
+        <main id="top">
+          <HeroSection />
+          <NowSection />
+          <WorkSection onWordHunt={() => setWordHuntOpen(true)} />
+          <ResumeSections />
+        </main>
 
-      <SiteFooter />
-      {/* TODO(attention): implement hero-word attention weights and page highlights. */}
-      {/* TODO(word-hunt): implement the API route in server/ and connect the dialog. */}
-      {wordHuntOpen && <WordHuntDialog onClose={() => setWordHuntOpen(false)} />}
-    </div>
+        <SiteFooter />
+        {/* TODO(word-hunt): implement the API route in server/ and connect the dialog. */}
+        {wordHuntOpen && <WordHuntDialog onClose={() => setWordHuntOpen(false)} />}
+      </div>
+    </AttentionProvider>
   );
 }
 

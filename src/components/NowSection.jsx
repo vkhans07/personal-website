@@ -1,10 +1,8 @@
 import React from 'react';
-import {Mark} from '../ui.jsx';
-
 export default function NowSection() {
   return <section className="now" aria-label="What I'm doing now">
     <div className="eyebrow now-label">Now</div>
-    <div><strong><Mark>Incrementing on tinyserve</Mark></strong>
+    <div><strong>Incrementing on tinyserve</strong>
       <div className="muted">A small vLLM-style inference server</div>
     </div>
     <div><strong>CS 61A Course Staff</strong>

@@ -3,6 +3,7 @@ import {Mark} from './ui.jsx';
 
 export const projects = [
   {
+    id: 'tinyserve',
     title: 'tinyserve',
     description: (
       <>
@@ -15,6 +16,7 @@ export const projects = [
     preview: 'speedup upon KV caching',
   },
   {
+    id: 'ray-tracer',
     title: 'Ray Tracer',
     description: (
       <>
@@ -26,6 +28,7 @@ export const projects = [
     preview: 'A render from the tracer',
   },
   {
+    id: 'muscel',
     title: 'Muscel',
     description: (
       <>
@@ -37,6 +40,7 @@ export const projects = [
     preview: 'App screenshots',
   },
   {
+    id: 'word-hunt-solver',
     title: 'Word Hunt solver',
     description: (
       <>
@@ -52,6 +56,7 @@ export const projects = [
 
 export const experience = [
   {
+    id: 'cs-61a',
     organization: 'CS 61A, UC Berkeley',
     role: 'Course Staff (UCS1)',
     date: 'Fall 2026',
@@ -61,18 +66,21 @@ export const experience = [
     ],
   },
   {
+    id: 'cs-mentors',
     organization: 'CS Mentors',
     role: 'Tech committee',
     date: 'Fall 2026',
     bullets: ['Contribute to backend development and scheduling.'],
   },
   {
+    id: 'bids',
     organization: 'Berkeley Institute for Data Science',
     role: 'Research Intern',
     date: 'Fall 2026',
     bullets: ['Work on AI pipelines and fine-tuning.'],
   },
   {
+    id: 'stellarsleep',
     organization: 'StellarSleep (YC S23)',
     role: 'Software & Data Engineering Intern',
     date: 'Summer 2026',
@@ -83,12 +91,14 @@ export const experience = [
     ],
   },
   {
+    id: 'cahlr',
     organization: 'CAHLR',
     role: 'Content Team Intern',
     date: 'Spring 2026',
     bullets: ['Contributed to the content team.'],
   },
   {
+    id: 'mu-alpha-theta',
     organization: 'Mu Alpha Theta',
     role: 'Math & Stats Test Writer',
     date: '2025 & 2026',
