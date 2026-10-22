@@ -2,6 +2,8 @@ import React from 'react';
 import {Mark} from './ui.jsx';
 
 export const projects = [
+  // Project panels are content-only: add copy to details.paragraphs/highlights,
+  // images under public/images/projects/<id>/, and paths to details.images.
   {
     id: 'tinyserve',
     title: 'tinyserve',
@@ -13,7 +15,12 @@ export const projects = [
       </>
     ),
     meta: <>Python, CUDA<br />In progress</>,
-    preview: 'speedup upon KV caching',
+    details: {
+      paragraphs: ['Building up the serving stack incrementally to study how prefix reuse and bursty traffic affect cache efficiency and tail latency.'],
+      highlights: ['Continuous batching', 'Paged KV cache', 'Prefix caching'],
+      images: [],
+      links: [],
+    },
   },
   {
     id: 'ray-tracer',
@@ -25,7 +32,12 @@ export const projects = [
       </>
     ),
     meta: <>C++, CUDA</>,
-    preview: 'A render from the tracer',
+    details: {
+      paragraphs: ['A renderer written from scratch, first parallelized across CPU threads and then ported to CUDA.'],
+      highlights: [],
+      images: [],
+      links: [],
+    },
   },
   {
     id: 'muscel',
@@ -37,7 +49,12 @@ export const projects = [
       </>
     ),
     meta: <>React Native, FastAPI<br />muscel.net</>,
-    preview: 'App screenshots',
+    details: {
+      paragraphs: ['A fitness app centered on training progress, with offline edits safely queued for later synchronization.'],
+      highlights: ['1RM prediction', 'Offline-first sync', 'Durable local outbox', '140 registered users'],
+      images: [],
+      links: [{label: 'Visit muscel.net', href: 'https://muscel.net'}],
+    },
   },
   {
     id: 'word-hunt-solver',
@@ -49,8 +66,26 @@ export const projects = [
       </>
     ),
     meta: <>Python, PyTorch<br />Click to explore</>,
-    preview: 'Word Hunt solver',
+    details: {
+      paragraphs: ['A computer vision and search pipeline that reads a 4×4 board, finds valid paths through adjacent tiles, and can play the words.'],
+      highlights: ['Tile-reading CNN', 'Trie-pruned depth-first search', 'Adjacent tile paths'],
+      images: [],
+      links: [{label: 'Source code', href: 'https://github.com/vkhans07/word-hunt-automatic-solver'}],
+    },
     wordHunt: true,
+  },
+  {
+    id: 'clinician-forecasting',
+    title: 'Clinician availability forecasting',
+    description: 'A discrete-time survival model fit on 2,400 provider-weeks; backtests reduced error on total available hours by 54%.',
+    meta: <>Python, SQL<br />Summer 2026</>,
+    details: {
+      paragraphs: ['Built at StellarSleep to forecast clinician availability, with backtests used to evaluate total available-hours error.'],
+      highlights: [],
+      images: [],
+      links: [],
+      resumeExperienceId: 'stellarsleep',
+    },
   },
 ];
 
